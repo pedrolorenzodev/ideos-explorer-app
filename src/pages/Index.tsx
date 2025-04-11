@@ -2,18 +2,58 @@
 import IdeologiaCard from '@/components/IdeologiaCard';
 import BottomNavigation from '@/components/BottomNavigation';
 import FloatingButtons from '@/components/FloatingButtons';
-import { ArrowRight, BookOpen, Coins, LandPlot, Scale, Building, Landmark, BrainCircuit, CircleDollarSign, Bird } from 'lucide-react';
+import { ArrowRight, BookOpen, Coins, Landmark, Shield, Bird, DollarSign, Building, Brain, CircleDollarSign } from 'lucide-react';
 
 const Index = () => {
   const ideologias = [
-    { nombre: 'Liberalismo', icono: <Bird />, path: '/perspectiva/liberalismo' },
-    { nombre: 'Marxismo', icono: <BookOpen />, path: '/perspectiva/marxismo' },
-    { nombre: 'Socialismo', icono: <BrainCircuit />, path: '/perspectiva/socialismo' },
-    { nombre: 'Capitalismo', icono: <CircleDollarSign />, path: '/perspectiva/capitalismo' },
-    { nombre: 'Conservadurismo', icono: <Landmark />, path: '/perspectiva/conservadurismo' },
-    { nombre: 'AnarcoCapitalismo', icono: <Coins />, path: '/perspectiva/anarcocapitalismo' },
-    { nombre: 'Mercantilismo', icono: <Building />, path: '/perspectiva/mercantilismo' },
-    { nombre: 'Keynesianismo', icono: <LandPlot />, path: '/perspectiva/keynesianismo' },
+    { 
+      nombre: 'Liberalismo', 
+      icono: <Bird className="text-ideologia-liberalismo" />, 
+      path: '/perspectiva/liberalismo',
+      color: 'text-ideologia-liberalismo'
+    },
+    { 
+      nombre: 'Marxismo', 
+      icono: <BookOpen className="text-ideologia-marxismo" />, 
+      path: '/perspectiva/marxismo',
+      color: 'text-ideologia-marxismo'
+    },
+    { 
+      nombre: 'Socialismo', 
+      icono: <Brain className="text-ideologia-socialismo" />, 
+      path: '/perspectiva/socialismo',
+      color: 'text-ideologia-socialismo'
+    },
+    { 
+      nombre: 'Capitalismo', 
+      icono: <DollarSign className="text-ideologia-capitalismo" />, 
+      path: '/perspectiva/capitalismo',
+      color: 'text-ideologia-capitalismo'
+    },
+    { 
+      nombre: 'Conservadurismo', 
+      icono: <Shield className="text-ideologia-conservadurismo" />, 
+      path: '/perspectiva/conservadurismo',
+      color: 'text-ideologia-conservadurismo'
+    },
+    { 
+      nombre: 'AnarcoCapitalismo', 
+      icono: <Coins className="text-ideologia-anarcocapitalismo" />, 
+      path: '/perspectiva/anarcocapitalismo',
+      color: 'text-ideologia-anarcocapitalismo'
+    },
+    { 
+      nombre: 'Mercantilismo', 
+      icono: <Building className="text-ideologia-mercantilismo" />, 
+      path: '/perspectiva/mercantilismo',
+      color: 'text-ideologia-mercantilismo'
+    },
+    { 
+      nombre: 'Keynesianismo', 
+      icono: <CircleDollarSign className="text-ideologia-keynesianismo" />, 
+      path: '/perspectiva/keynesianismo',
+      color: 'text-ideologia-keynesianismo'
+    },
   ];
 
   return (
@@ -34,6 +74,7 @@ const Index = () => {
               nombre={ideologia.nombre} 
               icono={ideologia.icono}
               path={ideologia.path}
+              color={ideologia.color}
             />
           ))}
         </div>

@@ -10,8 +10,14 @@ const IdeologiaPage = () => {
   const [searchParams] = useSearchParams();
   const perspectiva = searchParams.get('perspectiva') || 'Neutra / Histórica';
   
-  // Capitalizar primera letra de la ideología para mostrarla
+  // Capitalize first letter of the ideology
   const ideologiaCapitalizada = ideologia ? ideologia.charAt(0).toUpperCase() + ideologia.slice(1) : '';
+  
+  // Get ideology color based on the name
+  const getIdeologiaColor = (name: string) => {
+    const colorKey = name.toLowerCase();
+    return `text-ideologia-${colorKey}`;
+  };
 
   return (
     <div className="pb-20 animate-fade-in">
@@ -22,7 +28,9 @@ const IdeologiaPage = () => {
             <span>Volver</span>
           </Link>
           
-          <h1 className="text-2xl font-bold mb-1">{ideologiaCapitalizada}</h1>
+          <h1 className={`text-2xl font-bold mb-1 ${getIdeologiaColor(ideologia || '')}`}>
+            {ideologiaCapitalizada}
+          </h1>
           <div className="flex items-center mb-6">
             <span className="font-medium">Perspectiva:</span>
             <span className="ml-2 bg-gray-100 px-3 py-1 rounded-full text-sm">{perspectiva}</span>

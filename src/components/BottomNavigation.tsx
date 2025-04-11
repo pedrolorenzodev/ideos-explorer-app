@@ -1,5 +1,5 @@
 
-import { Home, GitCompare, MessageSquare, TestTube, User } from 'lucide-react';
+import { Home, Swords, MessageSquare, TestTube, User } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 const BottomNavigation = () => {
@@ -7,7 +7,7 @@ const BottomNavigation = () => {
   
   const navItems = [
     { icon: Home, label: 'Home', path: '/' },
-    { icon: GitCompare, label: 'Versus', path: '/versus' },
+    { icon: Swords, label: 'Batallas', path: '/versus' },
     { icon: MessageSquare, label: 'Chat', path: '/chat' },
     { icon: TestTube, label: 'Tests', path: '/tests' },
     { icon: User, label: 'Perfil', path: '/perfil' },

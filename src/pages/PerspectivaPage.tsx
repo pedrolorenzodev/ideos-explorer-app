@@ -38,6 +38,12 @@ const PerspectivaPage = () => {
   
   // Capitalizar primera letra de la ideología para mostrarla
   const ideologiaCapitalizada = ideologia ? ideologia.charAt(0).toUpperCase() + ideologia.slice(1) : '';
+  
+  // Get ideology color based on the name
+  const getIdeologiaColor = (name: string) => {
+    const colorKey = name.toLowerCase();
+    return `text-ideologia-${colorKey}`;
+  };
 
   return (
     <div className="pb-20 animate-fade-in">
@@ -48,7 +54,9 @@ const PerspectivaPage = () => {
             <span>Volver</span>
           </Link>
           
-          <h1 className="text-2xl font-bold mb-1">{ideologiaCapitalizada}</h1>
+          <h1 className={`text-2xl font-bold mb-1 ${getIdeologiaColor(ideologia || '')}`}>
+            {ideologiaCapitalizada}
+          </h1>
           <h2 className="text-lg font-medium mb-6">
             ¿Desde qué perspectiva quieres analizarla?
           </h2>
@@ -61,6 +69,7 @@ const PerspectivaPage = () => {
               nombre={perspectiva.nombre}
               descripcion={perspectiva.descripcion}
               ideologia={ideologia || ''}
+              color={getIdeologiaColor(ideologia || '')}
             />
           ))}
         </div>

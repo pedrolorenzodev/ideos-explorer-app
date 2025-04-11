@@ -53,6 +53,17 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// Ideology-specific colors
+				ideologia: {
+					marxismo: '#c41414',
+					socialismo: '#e63939',
+					anarcocapitalismo: '#f5c518',
+					liberalismo: '#2b7de9',
+					conservadurismo: '#4a5568',
+					capitalismo: '#38a169',
+					mercantilismo: '#805ad5',
+					keynesianismo: '#3182ce',
+				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

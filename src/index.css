@@ -60,4 +60,21 @@
   .card-hover {
     @apply transition-all duration-200 hover:shadow-md hover:-translate-y-1;
   }
+  
+  /* Ideology-specific card hover styles */
+  .card-hover-liberalismo {
+    @apply transition-all duration-200 hover:shadow-md hover:-translate-y-1 hover:border-ideologia-liberalismo;
+  }
+  
+  .card-hover-marxismo {
+    @apply transition-all duration-200 hover:shadow-md hover:-translate-y-1 hover:border-ideologia-marxismo;
+  }
+  
+  .card-hover-socialismo {
+    @apply transition-all duration-200 hover:shadow-md hover:-translate-y-1 hover:border-ideologia-socialismo;
+  }
+  
+  .card-hover-anarcocapitalismo {
+    @apply transition-all duration-200 hover:shadow-md hover:-translate-y-1 hover:border-ideologia-anarcocapitalismo;
+  }
 }

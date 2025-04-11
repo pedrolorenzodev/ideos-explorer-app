@@ -4,6 +4,7 @@ import FloatingButtons from '@/components/FloatingButtons';
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
+import { Swords } from 'lucide-react';
 import { useState } from 'react';
 
 const VersusPage = () => {
@@ -36,7 +37,10 @@ const VersusPage = () => {
     <div className="pb-20 animate-fade-in">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold mb-1">Versus de Ideas</h1>
+          <div className="flex items-center justify-center mb-2">
+            <Swords className="mr-2" size={24} />
+            <h1 className="text-2xl font-bold">Batallas de Ideas</h1>
+          </div>
           <p className="text-gray-600">Compara diferentes ideologías y sus posturas sobre un tema</p>
         </div>
         
