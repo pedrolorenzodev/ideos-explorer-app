@@ -4,6 +4,7 @@ import FloatingButtons from '@/components/FloatingButtons';
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Swords } from 'lucide-react';
 import { useState } from 'react';
 
@@ -25,16 +26,56 @@ const VersusPage = () => {
     'Keynesianismo'
   ];
 
-  // Representantes por ideología
+  // Representantes por ideología con imágenes
   const representantes = {
-    Liberalismo: ['Adam Smith', 'John Locke', 'Friedrich Hayek', 'Milton Friedman'],
-    Marxismo: ['Karl Marx', 'Friedrich Engels', 'Vladimir Lenin', 'Rosa Luxemburgo'],
-    Socialismo: ['Jean Jaurès', 'Eugene V. Debs', 'Eduard Bernstein', 'George Orwell'],
-    Capitalismo: ['Milton Friedman', 'Ayn Rand', 'Ludwig von Mises', 'Joseph Schumpeter'],
-    Conservadurismo: ['Edmund Burke', 'Russell Kirk', 'Roger Scruton', 'Margaret Thatcher'],
-    AnarcoCapitalismo: ['Murray Rothbard', 'David Friedman', 'Hans-Hermann Hoppe', 'Lysander Spooner'],
-    Mercantilismo: ['Jean-Baptiste Colbert', 'Thomas Mun', 'Jean Bodin', 'Antoine de Montchrestien'],
-    Keynesianismo: ['John Maynard Keynes', 'Paul Krugman', 'Joseph Stiglitz', 'John Kenneth Galbraith']
+    Liberalismo: [
+      { nombre: 'Adam Smith', imagen: 'https://images.unsplash.com/photo-1576500164142-0d80697ca67f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YWRhbSUyMHNtaXRofGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'John Locke', imagen: 'https://images.unsplash.com/photo-1541779408-c1f2192db618?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGhpbG9zb3BoZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Friedrich Hayek', imagen: 'https://images.unsplash.com/photo-1569179482293-79dc48a5ee4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGhpbG9zb3BoZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Milton Friedman', imagen: 'https://images.unsplash.com/photo-1568607689150-15a8a36c1096?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cGhpbG9zb3BoZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60' },
+    ],
+    Marxismo: [
+      { nombre: 'Karl Marx', imagen: 'https://images.unsplash.com/photo-1578321279758-d61a19b8efcb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGhpbG9zb3BoZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60' }, 
+      { nombre: 'Friedrich Engels', imagen: 'https://images.unsplash.com/photo-1529599095404-bd6e0baa932f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cGhpbG9zb3BoZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Vladimir Lenin', imagen: 'https://images.unsplash.com/photo-1600685714281-6c39138d1c48?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cGhpbG9zb3BoZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Rosa Luxemburgo', imagen: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGhpbG9zb3BoZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60' },
+    ],
+    Socialismo: [
+      { nombre: 'Jean Jaurès', imagen: 'https://images.unsplash.com/photo-1542992015-4a0b729b4cf3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGhpbG9zb3BoZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Eugene V. Debs', imagen: 'https://images.unsplash.com/photo-1528143358888-6d3c7f67bd5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Eduard Bernstein', imagen: 'https://images.unsplash.com/photo-1607990283143-e81e7a2c9349?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'George Orwell', imagen: 'https://images.unsplash.com/photo-1590073844006-33659c7c9c180?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+    ],
+    Capitalismo: [
+      { nombre: 'Milton Friedman', imagen: 'https://images.unsplash.com/photo-1568607689150-15a8a36c1096?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cGhpbG9zb3BoZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Ayn Rand', imagen: 'https://images.unsplash.com/photo-1517842645767-c639042777db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Ludwig von Mises', imagen: 'https://images.unsplash.com/photo-1517842264405-637007353224?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Joseph Schumpeter', imagen: 'https://images.unsplash.com/photo-1617209503124-c3fa43bbb366?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+    ],
+    Conservadurismo: [
+      { nombre: 'Edmund Burke', imagen: 'https://images.unsplash.com/photo-1509011457661-797c3a0b238a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Russell Kirk', imagen: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Roger Scruton', imagen: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Margaret Thatcher', imagen: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+    ],
+    AnarcoCapitalismo: [
+      { nombre: 'Murray Rothbard', imagen: 'https://images.unsplash.com/photo-1439778615639-28529f7628bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjF8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'David Friedman', imagen: 'https://images.unsplash.com/photo-1548372290-8b01db56211d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Hans-Hermann Hoppe', imagen: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Lysander Spooner', imagen: 'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+    ],
+    Mercantilismo: [
+      { nombre: 'Jean-Baptiste Colbert', imagen: 'https://images.unsplash.com/photo-1566753323558-f4e0952af115?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Thomas Mun', imagen: 'https://images.unsplash.com/photo-1489980557514-251d61e3eeb6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Jean Bodin', imagen: 'https://images.unsplash.com/photo-1590086782957-93c06ef21604?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjl8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Antoine de Montchrestien', imagen: 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzF8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+    ],
+    Keynesianismo: [
+      { nombre: 'John Maynard Keynes', imagen: 'https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzB8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Paul Krugman', imagen: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzJ8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Joseph Stiglitz', imagen: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'John Kenneth Galbraith', imagen: 'https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzV8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+    ],
   };
   
   const temas = [
@@ -46,6 +87,17 @@ const VersusPage = () => {
     'Educación',
     'Justicia'
   ];
+
+  // Obtener datos del representante seleccionado
+  const getRepresentanteData = (ideologia: string, nombre: string) => {
+    if (!ideologia || !nombre) return null;
+    return representantes[ideologia as keyof typeof representantes]?.find(
+      (rep) => rep.nombre === nombre
+    );
+  };
+
+  const representante1Data = getRepresentanteData(ideologia1, representante1);
+  const representante2Data = getRepresentanteData(ideologia2, representante2);
 
   // Reset representante cuando cambia la ideología
   const handleIdeologia1Change = (value: string) => {
@@ -74,12 +126,12 @@ const VersusPage = () => {
             <div>
               <p className="mb-2 font-medium">Primera ideología</p>
               <Select onValueChange={handleIdeologia1Change} value={ideologia1}>
-                <SelectTrigger>
+                <SelectTrigger className="transition-all duration-200 hover:border-gray-400">
                   <SelectValue placeholder="Selecciona una ideología" />
                 </SelectTrigger>
                 <SelectContent>
                   {ideologias.map((ideologia) => (
-                    <SelectItem key={ideologia} value={ideologia}>
+                    <SelectItem key={ideologia} value={ideologia} className="cursor-pointer">
                       {ideologia}
                     </SelectItem>
                   ))}
@@ -91,13 +143,22 @@ const VersusPage = () => {
               <div>
                 <p className="mb-2 font-medium">Representante</p>
                 <Select onValueChange={setRepresentante1} value={representante1}>
-                  <SelectTrigger>
+                  <SelectTrigger className="transition-all duration-200 hover:border-gray-400">
                     <SelectValue placeholder="Selecciona un representante" />
                   </SelectTrigger>
                   <SelectContent>
                     {representantes[ideologia1 as keyof typeof representantes]?.map((representante) => (
-                      <SelectItem key={representante} value={representante}>
-                        {representante}
+                      <SelectItem key={representante.nombre} value={representante.nombre} className="cursor-pointer">
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-full overflow-hidden flex-shrink-0">
+                            <img 
+                              src={representante.imagen} 
+                              alt={representante.nombre}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <span>{representante.nombre}</span>
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -110,12 +171,12 @@ const VersusPage = () => {
             <div>
               <p className="mb-2 font-medium">Segunda ideología</p>
               <Select onValueChange={handleIdeologia2Change} value={ideologia2}>
-                <SelectTrigger>
+                <SelectTrigger className="transition-all duration-200 hover:border-gray-400">
                   <SelectValue placeholder="Selecciona una ideología" />
                 </SelectTrigger>
                 <SelectContent>
                   {ideologias.map((ideologia) => (
-                    <SelectItem key={ideologia} value={ideologia}>
+                    <SelectItem key={ideologia} value={ideologia} className="cursor-pointer">
                       {ideologia}
                     </SelectItem>
                   ))}
@@ -127,13 +188,22 @@ const VersusPage = () => {
               <div>
                 <p className="mb-2 font-medium">Representante</p>
                 <Select onValueChange={setRepresentante2} value={representante2}>
-                  <SelectTrigger>
+                  <SelectTrigger className="transition-all duration-200 hover:border-gray-400">
                     <SelectValue placeholder="Selecciona un representante" />
                   </SelectTrigger>
                   <SelectContent>
                     {representantes[ideologia2 as keyof typeof representantes]?.map((representante) => (
-                      <SelectItem key={representante} value={representante}>
-                        {representante}
+                      <SelectItem key={representante.nombre} value={representante.nombre} className="cursor-pointer">
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-full overflow-hidden flex-shrink-0">
+                            <img 
+                              src={representante.imagen} 
+                              alt={representante.nombre}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <span>{representante.nombre}</span>
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -146,12 +216,12 @@ const VersusPage = () => {
         <div className="mb-8">
           <p className="mb-2 font-medium">Tema a comparar</p>
           <Select onValueChange={setTema} value={tema}>
-            <SelectTrigger>
+            <SelectTrigger className="transition-all duration-200 hover:border-gray-400">
               <SelectValue placeholder="Selecciona un tema" />
             </SelectTrigger>
             <SelectContent>
               {temas.map((tema) => (
-                <SelectItem key={tema} value={tema}>
+                <SelectItem key={tema} value={tema} className="cursor-pointer">
                   {tema}
                 </SelectItem>
               ))}
@@ -161,9 +231,17 @@ const VersusPage = () => {
         
         {ideologia1 && ideologia2 && representante1 && representante2 && tema && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="p-5">
-              <h3 className="text-xl font-medium mb-1">{ideologia1}</h3>
-              <p className="text-sm text-gray-500 mb-3">Desde la perspectiva de {representante1}</p>
+            <Card className="p-5 card-hover">
+              <div className="flex items-center mb-4">
+                <Avatar className="h-12 w-12 mr-3">
+                  <AvatarImage src={representante1Data?.imagen} alt={representante1} />
+                  <AvatarFallback>{representante1.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <h3 className="text-xl font-medium mb-1 text-ideologia-liberalismo">{ideologia1}</h3>
+                  <p className="text-sm text-gray-500">Desde la perspectiva de {representante1}</p>
+                </div>
+              </div>
               <div className="space-y-4">
                 <p className="text-gray-700">
                   Postura de {representante1} sobre {tema.toLowerCase()} según los principios del {ideologia1}.
@@ -174,9 +252,17 @@ const VersusPage = () => {
               </div>
             </Card>
             
-            <Card className="p-5">
-              <h3 className="text-xl font-medium mb-1">{ideologia2}</h3>
-              <p className="text-sm text-gray-500 mb-3">Desde la perspectiva de {representante2}</p>
+            <Card className="p-5 card-hover">
+              <div className="flex items-center mb-4">
+                <Avatar className="h-12 w-12 mr-3">
+                  <AvatarImage src={representante2Data?.imagen} alt={representante2} />
+                  <AvatarFallback>{representante2.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <h3 className="text-xl font-medium mb-1 text-ideologia-marxismo">{ideologia2}</h3>
+                  <p className="text-sm text-gray-500">Desde la perspectiva de {representante2}</p>
+                </div>
+              </div>
               <div className="space-y-4">
                 <p className="text-gray-700">
                   Postura de {representante2} sobre {tema.toLowerCase()} según los principios del {ideologia2}.

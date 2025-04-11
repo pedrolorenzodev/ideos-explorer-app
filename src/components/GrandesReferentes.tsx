@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { BookOpen, Quote, Video, FileText, Headphones } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { BookOpen, Quote, Video, FileText, Headphones, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface GrandesReferentesProps {
   ideologia: string;
@@ -12,7 +13,7 @@ interface GrandesReferentesProps {
 interface Autor {
   id: string;
   nombre: string;
-  icono: string;
+  imagen: string;
   biografia: string;
   libros: Array<{
     titulo: string;
@@ -34,23 +35,23 @@ interface Autor {
 const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
   const [autorSeleccionado, setAutorSeleccionado] = useState<string | null>(null);
   
-  // Datos para el liberalismo
+  // Datos para las ideologías con imágenes reales
   const autores: { [key: string]: Autor[] } = {
     'Liberalismo': [
       {
         id: 'adam-smith',
         nombre: 'Adam Smith',
-        icono: '👨‍🏫',
+        imagen: 'https://images.unsplash.com/photo-1576500164142-0d80697ca67f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YWRhbSUyMHNtaXRofGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60',
         biografia: 'Filósofo y economista escocés del siglo XVIII. Considerado el padre de la economía moderna y del liberalismo económico. Su obra más importante estableció las bases del capitalismo de libre mercado.',
         libros: [
           {
             titulo: 'La Riqueza de las Naciones',
-            portada: '/placeholder.svg',
+            portada: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Ym9vayUyMGNvdmVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60',
             descripcion: 'Publicada en 1776, esta obra analiza la economía de mercado y establece las bases del liberalismo económico y el capitalismo moderno.'
           },
           {
             titulo: 'Teoría de los Sentimientos Morales',
-            portada: '/placeholder.svg',
+            portada: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Ym9vayUyMGNvdmVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60',
             descripcion: 'Publicada en 1759, explora cómo la moral y el auto-interés pueden coexistir en la sociedad.'
           }
         ],
@@ -92,17 +93,17 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
       {
         id: 'john-locke',
         nombre: 'John Locke',
-        icono: '🧠',
+        imagen: 'https://images.unsplash.com/photo-1541779408-c1f2192db618?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGhpbG9zb3BoZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60',
         biografia: 'Filósofo y médico inglés del siglo XVII, considerado el padre del liberalismo clásico. Sus ideas sobre la libertad, el derecho natural y el contrato social influenciaron las revoluciones liberales y constituciones modernas.',
         libros: [
           {
             titulo: 'Segundo Tratado sobre el Gobierno Civil',
-            portada: '/placeholder.svg',
+            portada: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGJvb2slMjBjb3ZlcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60',
             descripcion: 'Publicado en 1689, establece la teoría del contrato social y los derechos naturales.'
           },
           {
             titulo: 'Ensayo sobre el Entendimiento Humano',
-            portada: '/placeholder.svg',
+            portada: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJvb2slMjBjb3ZlcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60',
             descripcion: 'Obra de 1690 que estudia el origen y alcance del conocimiento humano.'
           }
         ],
@@ -134,17 +135,17 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
       {
         id: 'john-stuart-mill',
         nombre: 'John Stuart Mill',
-        icono: '📚',
+        imagen: 'https://images.unsplash.com/photo-1569179482293-79dc48a5ee4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGhpbG9zb3BoZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60',
         biografia: 'Filósofo, economista y político británico del siglo XIX. Defensor del utilitarismo, la libertad individual y los derechos de las mujeres. Sus obras ampliaron el liberalismo clásico incorporando aspectos sociales.',
         libros: [
           {
             titulo: 'Sobre la Libertad',
-            portada: '/placeholder.svg',
+            portada: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Ym9vayUyMGNvdmVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60',
             descripcion: 'Ensayo de 1859 que defiende la libertad civil y política del individuo frente a la autoridad.'
           },
           {
             titulo: 'El Utilitarismo',
-            portada: '/placeholder.svg',
+            portada: 'https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGJvb2slMjBjb3ZlcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60',
             descripcion: 'Obra de 1863 que desarrolla la teoría ética utilitarista.'
           }
         ],
@@ -209,19 +210,28 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <TabsList className="grid grid-cols-3 w-full mb-6">
+          <div className="flex overflow-x-auto pb-4 gap-4 md:grid md:grid-cols-3 md:overflow-x-visible">
             {autoresIdeologia.map(autor => (
-              <TabsTrigger 
-                key={autor.id} 
-                value={autor.id}
+              <div 
+                key={autor.id}
                 onClick={() => setAutorSeleccionado(autor.id)}
-                className={autorSeleccionado === autor.id ? `bg-ideologia-${ideologia.toLowerCase()} bg-opacity-10` : ''}
+                className={`cursor-pointer min-w-[200px] flex-shrink-0 rounded-lg p-4 transition-all duration-200 
+                  ${autorSeleccionado === autor.id 
+                    ? `bg-ideologia-${ideologia.toLowerCase()} bg-opacity-10 border border-ideologia-${ideologia.toLowerCase()}`
+                    : 'bg-white hover:bg-gray-50'}`}
               >
-                <span className="mr-2">{autor.icono}</span>
-                {autor.nombre}
-              </TabsTrigger>
+                <div className="flex items-center gap-3">
+                  <Avatar className="w-12 h-12 border image-hover">
+                    <AvatarImage src={autor.imagen} alt={autor.nombre} />
+                    <AvatarFallback>{autor.nombre.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <h3 className="font-medium">{autor.nombre}</h3>
+                  </div>
+                </div>
+              </div>
             ))}
-          </TabsList>
+          </div>
         </CardContent>
       </Card>
       
@@ -229,27 +239,32 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>
-                <span className="text-4xl mr-3">{autorActual.icono}</span>
-                <span className={`text-ideologia-${ideologia.toLowerCase()}`}>{autorActual.nombre}</span>
-              </CardTitle>
+              <div className="flex items-center gap-4">
+                <Avatar className="w-16 h-16 border-2 border-gray-200">
+                  <AvatarImage src={autorActual.imagen} alt={autorActual.nombre} />
+                  <AvatarFallback>{autorActual.nombre.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <CardTitle className={`text-ideologia-${ideologia.toLowerCase()}`}>
+                    {autorActual.nombre}
+                  </CardTitle>
+                  <p className="text-gray-600 mt-1">{autorActual.biografia}</p>
+                </div>
+              </div>
             </CardHeader>
-            <CardContent>
-              <p className="text-gray-700">{autorActual.biografia}</p>
-            </CardContent>
           </Card>
           
           <Tabs defaultValue="libros" className="w-full">
             <TabsList className="grid grid-cols-3 mb-6">
-              <TabsTrigger value="libros">
+              <TabsTrigger value="libros" className="transition-all duration-200">
                 <BookOpen className="h-4 w-4 mr-2" />
                 Libros
               </TabsTrigger>
-              <TabsTrigger value="frases">
+              <TabsTrigger value="frases" className="transition-all duration-200">
                 <Quote className="h-4 w-4 mr-2" />
                 Frases célebres
               </TabsTrigger>
-              <TabsTrigger value="recursos">
+              <TabsTrigger value="recursos" className="transition-all duration-200">
                 <Video className="h-4 w-4 mr-2" />
                 Recursos
               </TabsTrigger>
@@ -258,12 +273,14 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
             <TabsContent value="libros">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {autorActual.libros.map((libro, index) => (
-                  <Card key={index}>
+                  <Card key={index} className="card-hover">
                     <div className="flex p-4">
-                      <div className="flex-shrink-0 mr-4">
-                        <div className="w-24 h-36 bg-gray-200 rounded flex items-center justify-center">
-                          <BookOpen className="h-10 w-10 text-gray-400" />
-                        </div>
+                      <div className="flex-shrink-0 mr-4 image-hover rounded overflow-hidden">
+                        <img 
+                          src={libro.portada} 
+                          alt={libro.titulo} 
+                          className="w-24 h-36 object-cover"
+                        />
                       </div>
                       <div>
                         <h4 className={`font-bold text-ideologia-${ideologia.toLowerCase()}`}>{libro.titulo}</h4>
@@ -280,7 +297,7 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
                 <CarouselContent>
                   {autorActual.frases.map((frase, index) => (
                     <CarouselItem key={index}>
-                      <Card className="h-64 flex items-center">
+                      <Card className="h-64 flex items-center card-hover">
                         <CardContent className="p-6 text-center flex flex-col justify-center h-full">
                           <Quote className={`h-8 w-8 mx-auto mb-4 text-ideologia-${ideologia.toLowerCase()}`} />
                           <p className="text-lg font-medium italic mb-4">"{frase.texto}"</p>
@@ -292,15 +309,17 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="left-1" />
-                <CarouselNext className="right-1" />
+                <div className="flex justify-center gap-2 mt-4">
+                  <CarouselPrevious className="static transform-none mx-1" />
+                  <CarouselNext className="static transform-none mx-1" />
+                </div>
               </Carousel>
             </TabsContent>
             
             <TabsContent value="recursos">
               <div className="space-y-4">
                 {autorActual.recursos.map((recurso, index) => (
-                  <Card key={index}>
+                  <Card key={index} className="card-hover">
                     <div className="p-4 flex items-start">
                       <div className="mr-4 mt-1">
                         {recurso.tipo === 'video' && <Video className={`h-6 w-6 text-ideologia-${ideologia.toLowerCase()}`} />}
@@ -314,7 +333,7 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
                         )}
                         <a 
                           href={recurso.url} 
-                          className={`text-sm text-ideologia-${ideologia.toLowerCase()} mt-2 inline-block hover:underline`}
+                          className={`text-sm text-ideologia-${ideologia.toLowerCase()} mt-2 inline-block hover:underline transition-all duration-200`}
                           target="_blank" 
                           rel="noopener noreferrer"
                         >

@@ -1,5 +1,5 @@
 
-import { Home, Swords, MessageSquare, TestTube, User } from 'lucide-react';
+import { Home, Swords, MessageSquare, TestTube, UserCircle } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 const BottomNavigation = () => {
@@ -10,7 +10,7 @@ const BottomNavigation = () => {
     { icon: Swords, label: 'Batallas', path: '/versus' },
     { icon: MessageSquare, label: 'Chat', path: '/chat' },
     { icon: TestTube, label: 'Tests', path: '/tests' },
-    { icon: User, label: 'Perfil', path: '/perfil' },
+    { icon: UserCircle, label: 'Perfil', path: '/perfil' },
   ];
 
   return (
@@ -24,9 +24,9 @@ const BottomNavigation = () => {
               to={item.path} 
               className={`flex flex-col items-center justify-center w-full h-full ${
                 isActive ? 'text-black font-medium' : 'text-gray-500'
-              }`}
+              } transition-colors duration-200 hover:text-black`}
             >
-              <item.icon size={20} />
+              <item.icon size={20} className="icon-hover" />
               <span className="text-xs mt-1">{item.label}</span>
             </Link>
           );
