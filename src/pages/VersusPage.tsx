@@ -10,6 +10,8 @@ import { useState } from 'react';
 const VersusPage = () => {
   const [ideologia1, setIdeologia1] = useState('');
   const [ideologia2, setIdeologia2] = useState('');
+  const [representante1, setRepresentante1] = useState('');
+  const [representante2, setRepresentante2] = useState('');
   const [tema, setTema] = useState('');
   
   const ideologias = [
@@ -22,6 +24,18 @@ const VersusPage = () => {
     'Mercantilismo',
     'Keynesianismo'
   ];
+
+  // Representantes por ideología
+  const representantes = {
+    Liberalismo: ['Adam Smith', 'John Locke', 'Friedrich Hayek', 'Milton Friedman'],
+    Marxismo: ['Karl Marx', 'Friedrich Engels', 'Vladimir Lenin', 'Rosa Luxemburgo'],
+    Socialismo: ['Jean Jaurès', 'Eugene V. Debs', 'Eduard Bernstein', 'George Orwell'],
+    Capitalismo: ['Milton Friedman', 'Ayn Rand', 'Ludwig von Mises', 'Joseph Schumpeter'],
+    Conservadurismo: ['Edmund Burke', 'Russell Kirk', 'Roger Scruton', 'Margaret Thatcher'],
+    AnarcoCapitalismo: ['Murray Rothbard', 'David Friedman', 'Hans-Hermann Hoppe', 'Lysander Spooner'],
+    Mercantilismo: ['Jean-Baptiste Colbert', 'Thomas Mun', 'Jean Bodin', 'Antoine de Montchrestien'],
+    Keynesianismo: ['John Maynard Keynes', 'Paul Krugman', 'Joseph Stiglitz', 'John Kenneth Galbraith']
+  };
   
   const temas = [
     'Propiedad privada',
@@ -32,6 +46,17 @@ const VersusPage = () => {
     'Educación',
     'Justicia'
   ];
+
+  // Reset representante cuando cambia la ideología
+  const handleIdeologia1Change = (value: string) => {
+    setIdeologia1(value);
+    setRepresentante1('');
+  };
+
+  const handleIdeologia2Change = (value: string) => {
+    setIdeologia2(value);
+    setRepresentante2('');
+  };
   
   return (
     <div className="pb-20 animate-fade-in">
@@ -45,36 +70,76 @@ const VersusPage = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div>
-            <p className="mb-2 font-medium">Primera ideología</p>
-            <Select onValueChange={setIdeologia1} value={ideologia1}>
-              <SelectTrigger>
-                <SelectValue placeholder="Selecciona una ideología" />
-              </SelectTrigger>
-              <SelectContent>
-                {ideologias.map((ideologia) => (
-                  <SelectItem key={ideologia} value={ideologia}>
-                    {ideologia}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="space-y-4">
+            <div>
+              <p className="mb-2 font-medium">Primera ideología</p>
+              <Select onValueChange={handleIdeologia1Change} value={ideologia1}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecciona una ideología" />
+                </SelectTrigger>
+                <SelectContent>
+                  {ideologias.map((ideologia) => (
+                    <SelectItem key={ideologia} value={ideologia}>
+                      {ideologia}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            {ideologia1 && (
+              <div>
+                <p className="mb-2 font-medium">Representante</p>
+                <Select onValueChange={setRepresentante1} value={representante1}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona un representante" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {representantes[ideologia1 as keyof typeof representantes]?.map((representante) => (
+                      <SelectItem key={representante} value={representante}>
+                        {representante}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
           </div>
           
-          <div>
-            <p className="mb-2 font-medium">Segunda ideología</p>
-            <Select onValueChange={setIdeologia2} value={ideologia2}>
-              <SelectTrigger>
-                <SelectValue placeholder="Selecciona una ideología" />
-              </SelectTrigger>
-              <SelectContent>
-                {ideologias.map((ideologia) => (
-                  <SelectItem key={ideologia} value={ideologia}>
-                    {ideologia}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="space-y-4">
+            <div>
+              <p className="mb-2 font-medium">Segunda ideología</p>
+              <Select onValueChange={handleIdeologia2Change} value={ideologia2}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecciona una ideología" />
+                </SelectTrigger>
+                <SelectContent>
+                  {ideologias.map((ideologia) => (
+                    <SelectItem key={ideologia} value={ideologia}>
+                      {ideologia}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            {ideologia2 && (
+              <div>
+                <p className="mb-2 font-medium">Representante</p>
+                <Select onValueChange={setRepresentante2} value={representante2}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona un representante" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {representantes[ideologia2 as keyof typeof representantes]?.map((representante) => (
+                      <SelectItem key={representante} value={representante}>
+                        {representante}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
           </div>
         </div>
         
@@ -94,28 +159,30 @@ const VersusPage = () => {
           </Select>
         </div>
         
-        {ideologia1 && ideologia2 && tema && (
+        {ideologia1 && ideologia2 && representante1 && representante2 && tema && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="p-5">
-              <h3 className="text-xl font-medium mb-3">{ideologia1}</h3>
+              <h3 className="text-xl font-medium mb-1">{ideologia1}</h3>
+              <p className="text-sm text-gray-500 mb-3">Desde la perspectiva de {representante1}</p>
               <div className="space-y-4">
                 <p className="text-gray-700">
-                  Postura de {ideologia1} sobre {tema.toLowerCase()}.
+                  Postura de {representante1} sobre {tema.toLowerCase()} según los principios del {ideologia1}.
                 </p>
                 <p className="text-sm text-gray-500">
-                  * Este es un espacio para mostrar la postura de la primera ideología seleccionada.
+                  * Este contenido representa el pensamiento de {representante1} sobre este tema.
                 </p>
               </div>
             </Card>
             
             <Card className="p-5">
-              <h3 className="text-xl font-medium mb-3">{ideologia2}</h3>
+              <h3 className="text-xl font-medium mb-1">{ideologia2}</h3>
+              <p className="text-sm text-gray-500 mb-3">Desde la perspectiva de {representante2}</p>
               <div className="space-y-4">
                 <p className="text-gray-700">
-                  Postura de {ideologia2} sobre {tema.toLowerCase()}.
+                  Postura de {representante2} sobre {tema.toLowerCase()} según los principios del {ideologia2}.
                 </p>
                 <p className="text-sm text-gray-500">
-                  * Este es un espacio para mostrar la postura de la segunda ideología seleccionada.
+                  * Este contenido representa el pensamiento de {representante2} sobre este tema.
                 </p>
               </div>
             </Card>
