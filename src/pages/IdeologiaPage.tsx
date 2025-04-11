@@ -21,7 +21,7 @@ const IdeologiaPage = () => {
 
   return (
     <div className="pb-20 animate-fade-in">
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-5xl mx-auto px-4 py-8">
         <div className="mb-8">
           <Link to={`/perspectiva/${ideologia}`} className="inline-flex items-center text-gray-600 hover:text-black mb-4">
             <ArrowLeft size={18} className="mr-1" />

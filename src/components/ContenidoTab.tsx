@@ -1,5 +1,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import TestInteractivo from "./TestInteractivo";
+import GrandesReferentes from "./GrandesReferentes";
 
 interface ContenidoTabProps {
   ideologia: string;
@@ -7,13 +9,14 @@ interface ContenidoTabProps {
 }
 
 const ContenidoTab = ({ ideologia, perspectiva }: ContenidoTabProps) => {
-  // Este componente mostrará el contenido de la ideología según la perspectiva seleccionada
   return (
     <Tabs defaultValue="conceptos" className="w-full">
-      <TabsList className="grid grid-cols-3 mb-6">
+      <TabsList className="grid grid-cols-5 mb-6">
         <TabsTrigger value="conceptos">Conceptos Clave</TabsTrigger>
         <TabsTrigger value="ideas">Ideas Principales</TabsTrigger>
         <TabsTrigger value="criticas">Críticas</TabsTrigger>
+        <TabsTrigger value="test">¿Cuánto aprendiste?</TabsTrigger>
+        <TabsTrigger value="referentes">Grandes Referentes</TabsTrigger>
       </TabsList>
       
       <TabsContent value="conceptos" className="animate-fade-in">
@@ -46,6 +49,14 @@ const ContenidoTab = ({ ideologia, perspectiva }: ContenidoTabProps) => {
             Aquí se mostrarán las críticas principales a {ideologia} desde la perspectiva {perspectiva.toLowerCase()}.
           </p>
         </div>
+      </TabsContent>
+      
+      <TabsContent value="test" className="animate-fade-in">
+        <TestInteractivo ideologia={ideologia} />
+      </TabsContent>
+      
+      <TabsContent value="referentes" className="animate-fade-in">
+        <GrandesReferentes ideologia={ideologia} />
       </TabsContent>
     </Tabs>
   );
