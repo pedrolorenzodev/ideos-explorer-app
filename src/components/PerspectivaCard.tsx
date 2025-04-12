@@ -37,7 +37,7 @@ const PerspectivaCard = ({
           {nombre}
           <span className={`absolute bottom-0 left-0 w-0 h-0.5 ${textColor === 'text-white' ? 'bg-white' : 'bg-gray-800'} group-hover:w-full transition-all duration-300`}></span>
         </h3>
-        <p className={`text-sm ${textColor === 'text-white' ? 'text-white/90' : 'text-gray-700'}`}>{descripcion}</p>
+        <p className="text-sm font-normal text-slate-600">{descripcion}</p>
       </div>
     </Link>;
 };
