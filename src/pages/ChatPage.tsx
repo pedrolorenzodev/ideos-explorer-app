@@ -63,6 +63,12 @@ const ChatPage = () => {
       ideologia: 'Socialismo',
       mensajeBienvenida: 'Hola, soy George Orwell. He visto cómo las ideologías pueden convertirse en tiranías. Si querés hablar de libertad, poder y lenguaje, acá estoy.',
       ejemploRespuesta: 'Porque vi de cerca cómo los totalitarismos deforman la verdad, el lenguaje y la libertad individual. 1984 fue una advertencia, no una predicción. Quise mostrar lo que pasa cuando el poder ya no tiene límites.'
+    },
+    {
+      nombre: 'Vladimir Lenin',
+      ideologia: 'Marxismo',
+      mensajeBienvenida: 'Saludos, soy Vladimir Ilich Lenin. Si te interesa comprender la revolución proletaria y la lucha de clases, estoy aquí para dialogar contigo.',
+      ejemploRespuesta: 'La dictadura del proletariado es la transición necesaria del capitalismo al comunismo. Es el poder político ejercido por la clase trabajadora para suprimir a la burguesía y reorganizar la sociedad sin clases. No se trata de una dictadura en el sentido burgués, sino del control democrático de la mayoría sobre la minoría explotadora.'
     }
   ];
 
@@ -113,10 +119,20 @@ const ChatPage = () => {
     <div className="pb-20 h-screen flex flex-col animate-fade-in">
       <div className="flex-1 max-w-4xl mx-auto px-4 py-8 w-full flex flex-col">
         <div className="mb-6">
-          <Link to="/" className="inline-flex items-center text-white/80 hover:text-white mb-2">
-            <ArrowLeft size={18} className="mr-1" />
-            <span>Volver</span>
-          </Link>
+          {personajeSeleccionado ? (
+            <button 
+              onClick={() => setPersonajeSeleccionado(null)} 
+              className="inline-flex items-center text-white/80 hover:text-white mb-2"
+            >
+              <ArrowLeft size={18} className="mr-1" />
+              <span>Volver</span>
+            </button>
+          ) : (
+            <Link to="/" className="inline-flex items-center text-white/80 hover:text-white mb-2">
+              <ArrowLeft size={18} className="mr-1" />
+              <span>Volver</span>
+            </Link>
+          )}
           
           <h1 className="text-2xl font-bold text-white">Chat con Personajes</h1>
           {ideologia && (
@@ -158,7 +174,7 @@ const ChatPage = () => {
                     className={`max-w-[80%] p-3 rounded-lg ${
                       msg.esUsuario 
                         ? 'bg-white/10 text-white' 
-                        : `${getIdeologyBackgroundColor(personajeSeleccionado.ideologia)} text-white`
+                        : 'bg-white/20 text-white'
                     }`}
                   >
                     {msg.texto}
@@ -167,7 +183,7 @@ const ChatPage = () => {
               ))}
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className={`max-w-[80%] p-3 rounded-lg ${getIdeologyBackgroundColor(personajeSeleccionado.ideologia)} text-white`}>
+                  <div className="max-w-[80%] p-3 rounded-lg bg-white/20 text-white">
                     <div className="flex space-x-2">
                       <div className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></div>
                       <div className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></div>
