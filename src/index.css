@@ -1,37 +1,36 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 10%;
+    --background: 0 0% 15%; /* #272727 */
+    --foreground: 0 0% 98%; /* #FFFFFF */
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
+    --card: 0 0% 20%; /* Slightly lighter than background */
+    --card-foreground: 0 0% 98%; /* #FFFFFF */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
+    --popover: 0 0% 20%; /* Slightly lighter than background */
+    --popover-foreground: 0 0% 98%; /* #FFFFFF */
 
-    --primary: 0 0% 10%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 0 0% 98%; /* #FFFFFF */
+    --primary-foreground: 0 0% 15%; /* #272727 */
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 10%;
+    --secondary: 0 0% 25%; /* Slightly lighter than background */
+    --secondary-foreground: 0 0% 98%; /* #FFFFFF */
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 0 0% 30%; /* Slightly lighter than background */
+    --muted-foreground: 0 0% 80%; /* Light gray for muted text */
 
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 10%;
+    --accent: 0 0% 35%; /* Slightly lighter than background */
+    --accent-foreground: 0 0% 98%; /* #FFFFFF */
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 0 0% 98%; /* #FFFFFF */
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 70%;
+    --border: 0 0% 30%; /* Slightly lighter than background */
+    --input: 0 0% 30%; /* Slightly lighter than background */
+    --ring: 0 0% 50%; /* Medium gray for focus rings */
 
     --radius: 0.5rem;
   }
@@ -52,7 +51,22 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-medium;
+    @apply font-medium text-foreground;
+  }
+
+  /* Ensure all text has good contrast */
+  p, span, div, li {
+    @apply text-foreground;
+  }
+
+  /* Ensure form elements have good contrast */
+  input, textarea, select {
+    @apply text-foreground bg-background border-border;
+  }
+
+  /* Ensure buttons have good contrast */
+  button {
+    @apply text-foreground;
   }
 }
 

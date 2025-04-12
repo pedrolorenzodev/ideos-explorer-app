@@ -1,97 +1,204 @@
-
-import { useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { ArrowLeft, Send } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import BottomNavigation from '@/components/BottomNavigation';
 import FloatingButtons from '@/components/FloatingButtons';
-import ChatPersonaje from '@/components/ChatPersonaje';
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from 'lucide-react';
+import PersonIcon from '@mui/icons-material/Person';
 
 const ChatPage = () => {
   const [searchParams] = useSearchParams();
-  const ideologiaParam = searchParams.get('ideologia');
-  
+  const ideologia = searchParams.get('ideologia');
   const [personajeSeleccionado, setPersonajeSeleccionado] = useState<any>(null);
-  
-  // Lista de personajes filtrada por ideología si se proporciona una
+  const [mensaje, setMensaje] = useState('');
+  const [mensajes, setMensajes] = useState<Array<{texto: string, esUsuario: boolean}>>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const personajes = [
-    { nombre: 'Adam Smith', imagen: '/placeholder.svg', ideologia: 'Liberalismo' },
-    { nombre: 'Karl Marx', imagen: '/placeholder.svg', ideologia: 'Marxismo' },
-    { nombre: 'John Maynard Keynes', imagen: '/placeholder.svg', ideologia: 'Keynesianismo' },
-    { nombre: 'Murray Rothbard', imagen: '/placeholder.svg', ideologia: 'AnarcoCapitalismo' },
-    { nombre: 'Edmund Burke', imagen: '/placeholder.svg', ideologia: 'Conservadurismo' },
-  ].filter(p => !ideologiaParam || p.ideologia.toLowerCase() === ideologiaParam.toLowerCase());
+    {
+      nombre: 'Karl Marx',
+      ideologia: 'Marxismo',
+      mensajeBienvenida: 'Saludos, soy Karl Marx. ¿Te interesa entender las contradicciones del capitalismo o la lucha de clases? Pregunta lo que quieras.',
+      ejemploRespuesta: 'Ah, la plusvalía... ese es el corazón del sistema capitalista. Es, en resumen, el valor que el trabajador produce pero que no se le paga: se lo apropia el capitalista. Es la base de la explotación. Si querés, puedo explicártelo con un ejemplo concreto.'
+    },
+    {
+      nombre: 'Adam Smith',
+      ideologia: 'Liberalismo',
+      mensajeBienvenida: 'Hola, soy Adam Smith, autor de La riqueza de las naciones. ¿Querés entender cómo funciona realmente el mercado?',
+      ejemploRespuesta: 'La "mano invisible" es una forma de decir que, al perseguir nuestros propios intereses, muchas veces terminamos beneficiando a toda la sociedad, aunque no sea esa nuestra intención directa. Es un principio que observé al analizar los mercados.'
+    },
+    {
+      nombre: 'Ludwig von Mises',
+      ideologia: 'Liberalismo',
+      mensajeBienvenida: 'Soy Ludwig von Mises. Estoy aquí para hablarte sobre el poder de la acción humana en una economía libre. ¿En qué estás pensando?',
+      ejemploRespuesta: 'Porque solo en un mercado libre los precios transmiten información real. Cualquier interferencia estatal distorsiona el proceso de coordinación. La planificación central no puede reemplazar al orden espontáneo del mercado.'
+    },
+    {
+      nombre: 'Murray Rothbard',
+      ideologia: 'AnarcoCapitalismo',
+      mensajeBienvenida: 'Soy Murray Rothbard. Si estás listo para cuestionarlo todo —especialmente al Estado—, acá estoy.',
+      ejemploRespuesta: 'Porque el Estado es, en esencia, una institución coercitiva que vive del robo legalizado —es decir, los impuestos. No necesitamos al Estado para vivir en sociedad ni para cooperar. De hecho, estamos mejor sin él.'
+    },
+    {
+      nombre: 'Javier Milei',
+      ideologia: 'AnarcoCapitalismo',
+      mensajeBienvenida: '¡Hola! Soy Javier Milei. Si venís a charlar sobre economía, libertad y terminar con la casta, ¡mandale!',
+      ejemploRespuesta: 'Porque se financia por la fuerza, vía impuestos, sin que vos puedas elegir. Es como si te apuntaran con un arma y te dijeran: "Pagá o vas preso". Eso es coerción, no libertad.'
+    },
+    {
+      nombre: 'John Maynard Keynes',
+      ideologia: 'Keynesianismo',
+      mensajeBienvenida: 'Hola, soy John Maynard Keynes. Si te interesa hablar sobre cómo estabilizar una economía inestable, estás en el lugar correcto.',
+      ejemploRespuesta: 'Porque los mercados, aunque útiles, no siempre se autorregulan de forma eficiente. En épocas de crisis, el Estado debe actuar para estimular la demanda y evitar que el desempleo se dispare. Dejar que todo se arregle solo es una apuesta muy riesgosa.'
+    },
+    {
+      nombre: 'Friedrich Engels',
+      ideologia: 'Marxismo',
+      mensajeBienvenida: 'Saludos, soy Friedrich Engels. Colaboré con Marx en la crítica al capitalismo. ¿Querés conversar sobre eso o sobre la lucha de clases?',
+      ejemploRespuesta: 'La familia, tal como existe bajo el capitalismo, refuerza estructuras de propiedad y opresión. En "El origen de la familia", analizo cómo cambia según las formas de producción. No es algo eterno ni natural, sino una construcción histórica.'
+    },
+    {
+      nombre: 'George Orwell',
+      ideologia: 'Socialismo',
+      mensajeBienvenida: 'Hola, soy George Orwell. He visto cómo las ideologías pueden convertirse en tiranías. Si querés hablar de libertad, poder y lenguaje, acá estoy.',
+      ejemploRespuesta: 'Porque vi de cerca cómo los totalitarismos deforman la verdad, el lenguaje y la libertad individual. 1984 fue una advertencia, no una predicción. Quise mostrar lo que pasa cuando el poder ya no tiene límites.'
+    }
+  ];
+
+  const handleSelectPersonaje = (personaje: any) => {
+    setPersonajeSeleccionado(personaje);
+    setMensajes([{
+      texto: personaje.mensajeBienvenida,
+      esUsuario: false
+    }]);
+  };
+
+  const handleEnviarMensaje = async () => {
+    if (!mensaje.trim()) return;
+    
+    const mensajeUsuario = mensaje;
+    setMensaje('');
+    setMensajes(prev => [...prev, { texto: mensajeUsuario, esUsuario: true }]);
+    
+    setIsLoading(true);
+    
+    // Simular delay de respuesta
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    setMensajes(prev => [...prev, { 
+      texto: personajeSeleccionado.ejemploRespuesta,
+      esUsuario: false 
+    }]);
+    
+    setIsLoading(false);
+  };
+
+  // Get background color based on ideology
+  const getIdeologyBackgroundColor = (ideologyName: string): string => {
+    const backgrounds: Record<string, string> = {
+      'Liberalismo': 'bg-gradient-to-r from-yellow-500 to-yellow-400',
+      'Marxismo': 'bg-gradient-to-r from-red-700 to-red-600',
+      'Socialismo': 'bg-gradient-to-r from-red-400 to-pink-400',
+      'Capitalismo': 'bg-gradient-to-r from-green-600 to-green-500',
+      'Conservadurismo': 'bg-gray-200',
+      'AnarcoCapitalismo': 'bg-gradient-to-r from-yellow-500 to-black',
+      'Mercantilismo': 'bg-gradient-to-r from-yellow-500 to-gray-400',
+      'Keynesianismo': 'bg-gradient-to-r from-blue-300 to-blue-400'
+    };
+    return backgrounds[ideologyName] || 'bg-gray-100';
+  };
 
   return (
     <div className="pb-20 h-screen flex flex-col animate-fade-in">
       <div className="flex-1 max-w-4xl mx-auto px-4 py-8 w-full flex flex-col">
         <div className="mb-6">
-          <Link to="/" className="inline-flex items-center text-gray-600 hover:text-black mb-2">
+          <Link to="/" className="inline-flex items-center text-white/80 hover:text-white mb-2">
             <ArrowLeft size={18} className="mr-1" />
             <span>Volver</span>
           </Link>
           
-          <h1 className="text-2xl font-bold">Chat con Personajes</h1>
-          {ideologiaParam && (
-            <p className="text-gray-600">
-              Dialogando sobre {ideologiaParam.charAt(0).toUpperCase() + ideologiaParam.slice(1)}
+          <h1 className="text-2xl font-bold text-white">Chat con Personajes</h1>
+          {ideologia && (
+            <p className="text-white/80">
+              Dialogando sobre {ideologia.charAt(0).toUpperCase() + ideologia.slice(1)}
             </p>
           )}
         </div>
         
         {!personajeSeleccionado ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {personajes.map((personaje) => (
-              <Button 
-                key={personaje.nombre}
-                variant="outline" 
-                className="p-4 h-auto flex flex-col items-center justify-center"
-                onClick={() => setPersonajeSeleccionado(personaje)}
-              >
-                <div className="w-16 h-16 rounded-full bg-gray-200 mb-3 overflow-hidden">
-                  <img 
-                    src={personaje.imagen} 
-                    alt={personaje.nombre} 
-                    className="w-full h-full object-cover" 
-                  />
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+            {personajes
+              .filter(p => !ideologia || p.ideologia.toLowerCase() === ideologia.toLowerCase())
+              .map((personaje) => (
+                <div 
+                  key={personaje.nombre}
+                  className={`p-4 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 ${getIdeologyBackgroundColor(personaje.ideologia)}`}
+                  onClick={() => handleSelectPersonaje(personaje)}
+                >
+                  <div className="flex flex-col items-center">
+                    <div className="w-16 h-16 rounded-full bg-white/10 mb-3 overflow-hidden border-2 border-white/50 flex items-center justify-center">
+                      <PersonIcon className="w-12 h-12 text-white/80" />
+                    </div>
+                    <h3 className="text-lg font-medium text-white">{personaje.nombre}</h3>
+                    <p className="text-sm text-white/80">{personaje.ideologia}</p>
+                  </div>
                 </div>
-                <span className="font-medium">{personaje.nombre}</span>
-                <span className="text-sm text-gray-500">{personaje.ideologia}</span>
-              </Button>
-            ))}
+              ))}
           </div>
         ) : (
           <div className="flex-1 flex flex-col">
-            <div className="mb-4 flex items-center justify-between">
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-gray-200 mr-3 overflow-hidden">
-                  <img 
-                    src={personajeSeleccionado.imagen} 
-                    alt={personajeSeleccionado.nombre} 
-                    className="w-full h-full object-cover" 
-                  />
+            <div className="flex-1 space-y-4 overflow-y-auto mb-4">
+              {mensajes.map((msg, idx) => (
+                <div 
+                  key={idx} 
+                  className={`flex ${msg.esUsuario ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div 
+                    className={`max-w-[80%] p-3 rounded-lg ${
+                      msg.esUsuario 
+                        ? 'bg-white/10 text-white' 
+                        : `${getIdeologyBackgroundColor(personajeSeleccionado.ideologia)} text-white`
+                    }`}
+                  >
+                    {msg.texto}
+                  </div>
                 </div>
-                <div>
-                  <h2 className="font-medium">{personajeSeleccionado.nombre}</h2>
-                  <p className="text-sm text-gray-500">{personajeSeleccionado.ideologia}</p>
+              ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className={`max-w-[80%] p-3 rounded-lg ${getIdeologyBackgroundColor(personajeSeleccionado.ideologia)} text-white`}>
+                    <div className="flex space-x-2">
+                      <div className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                      <div className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                      <div className="w-2 h-2 bg-white rounded-full animate-bounce"></div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => setPersonajeSeleccionado(null)}
-              >
-                Cambiar
-              </Button>
+              )}
             </div>
             
-            <div className="flex-1 border rounded-lg overflow-hidden">
-              <ChatPersonaje personaje={personajeSeleccionado} />
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                placeholder="Escribe tu mensaje..."
+                value={mensaje}
+                onChange={(e) => setMensaje(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleEnviarMensaje()}
+                className="flex-1 bg-white/5 border-white/20 text-white placeholder:text-white/60"
+              />
+              <Button 
+                onClick={handleEnviarMensaje}
+                className="bg-white/10 hover:bg-white/20 text-white"
+              >
+                <Send size={18} />
+              </Button>
             </div>
           </div>
         )}
       </div>
       
+      <FloatingButtons />
       <BottomNavigation />
     </div>
   );

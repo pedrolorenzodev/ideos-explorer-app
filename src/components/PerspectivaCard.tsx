@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
+
 interface PerspectivaCardProps {
   nombre: string;
   ideologia: string;
   descripcion: string;
   color?: string;
 }
+
 const PerspectivaCard = ({
   nombre,
   ideologia,
@@ -30,15 +32,20 @@ const PerspectivaCard = ({
   const getTextColor = (ideologyName: string): string => {
     return ideologyName === 'Conservadurismo' ? 'text-gray-800' : 'text-white';
   };
+
   const textColor = getTextColor(ideologia);
-  return <Link to={`/ideologia/${ideologia}?perspectiva=${nombre}`} className="group">
-      <div className="\n\n\nbg-transparent px-[10px] py-[15px] rounded-[8px] border border-zinc-300 hover:scale-[1.02] hover:shadow-md transition-transform duration-200\n">
-        <h3 className="text-blue-500 font-semibold">
+
+  return (
+    <Link to={`/ideologia/${ideologia}?perspectiva=${nombre}`} className="group">
+      <div className="bg-transparent px-[10px] py-[15px] rounded-[8px] border border-white/20 hover:border-white/40 hover:scale-[1.02] hover:shadow-md transition-all duration-200">
+        <h3 className="text-white font-semibold">
           {nombre}
-          <span className={`absolute bottom-0 left-0 w-0 h-0.5 ${textColor === 'text-white' ? 'bg-white' : 'bg-gray-800'} group-hover:w-full transition-all duration-300`}></span>
+          <span className={`absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300`}></span>
         </h3>
-        <p className="text-sm font-normal text-slate-600">{descripcion}</p>
+        <p className="text-sm font-normal text-white/80">{descripcion}</p>
       </div>
-    </Link>;
+    </Link>
+  );
 };
+
 export default PerspectivaCard;

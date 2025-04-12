@@ -1,4 +1,3 @@
-
 import BottomNavigation from '@/components/BottomNavigation';
 import FloatingButtons from '@/components/FloatingButtons';
 import { Card } from "@/components/ui/card";
@@ -66,108 +65,115 @@ const TestsPage = () => {
     <div className="pb-20 animate-fade-in">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold mb-1">Tests Interactivos</h1>
-          <p className="text-gray-600">Descubre qué ideologías se alinean más con tu forma de pensar</p>
+          <h1 className="text-2xl font-bold mb-1 text-white">Tests Interactivos</h1>
+          <p className="text-white/80">Descubre qué ideologías se alinean más con tu forma de pensar</p>
         </div>
         
         {!mostrarResultado ? (
-          <Card className="p-6">
+          <Card className="p-6 bg-white/5 border-white/20">
             <div className="flex justify-between items-center mb-6">
-              <span className="text-sm text-gray-500">Pregunta {preguntaActual + 1} de {preguntas.length}</span>
+              <span className="text-sm text-white/60">Pregunta {preguntaActual + 1} de {preguntas.length}</span>
               <div className="flex gap-1">
                 {preguntas.map((_, index) => (
                   <div 
                     key={index}
                     className={`w-3 h-3 rounded-full ${
                       index === preguntaActual 
-                        ? 'bg-black' 
+                        ? 'bg-white' 
                         : index < preguntaActual 
-                          ? 'bg-gray-400' 
-                          : 'bg-gray-200'
+                          ? 'bg-white/40' 
+                          : 'bg-white/20'
                     }`}
                   />
                 ))}
               </div>
             </div>
             
-            <h2 className="text-lg font-medium mb-4">
+            <h2 className="text-lg font-medium mb-4 text-white">
               {preguntas[preguntaActual].texto}
             </h2>
             
             <RadioGroup 
-              value={respuestas[preguntaActual] || ''}
+              value={respuestas[preguntaActual] || ''} 
               onValueChange={handleSeleccionarRespuesta}
-              className="space-y-4"
+              className="space-y-3"
             >
               {preguntas[preguntaActual].opciones.map((opcion, index) => (
-                <div key={index} className="flex items-start space-x-2">
+                <div key={index} className="flex items-center space-x-2">
                   <RadioGroupItem 
                     value={opcion} 
-                    id={`option-${index}`} 
-                    className="mt-1"
+                    id={`opcion-${index}`}
+                    className="border-white/40 data-[state=checked]:bg-white data-[state=checked]:border-white"
                   />
-                  <Label htmlFor={`option-${index}`} className="flex-1 cursor-pointer">
+                  <Label 
+                    htmlFor={`opcion-${index}`}
+                    className="text-white/80 cursor-pointer"
+                  >
                     {opcion}
                   </Label>
                 </div>
               ))}
             </RadioGroup>
             
-            <div className="mt-8 flex justify-end">
+            <div className="mt-6 flex justify-end">
               <Button 
                 onClick={handleSiguientePregunta}
                 disabled={!respuestas[preguntaActual]}
+                className="bg-white/10 hover:bg-white/20 text-white border border-white/20"
               >
-                {preguntaActual < preguntas.length - 1 ? 'Siguiente' : 'Ver resultado'}
+                {preguntaActual < preguntas.length - 1 ? 'Siguiente' : 'Ver resultados'}
               </Button>
             </div>
           </Card>
         ) : (
-          <Card className="p-6">
-            <h2 className="text-xl font-medium mb-6">Tu resultado</h2>
+          <Card className="p-6 bg-white/5 border-white/20">
+            <h2 className="text-xl font-medium mb-6 text-white">Tu resultado</h2>
             
             <div className="mb-8 space-y-4">
               <div className="flex justify-between items-center">
-                <span>Liberalismo</span>
-                <div className="w-2/3 h-4 bg-gray-200 rounded-full overflow-hidden">
+                <span className="text-white">Liberalismo</span>
+                <div className="w-2/3 h-4 bg-white/10 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-black" 
+                    className="h-full bg-white" 
                     style={{ width: '65%' }}
                   />
                 </div>
-                <span className="ml-2 font-medium">65%</span>
+                <span className="ml-2 font-medium text-white">65%</span>
               </div>
               
               <div className="flex justify-between items-center">
-                <span>Socialismo</span>
-                <div className="w-2/3 h-4 bg-gray-200 rounded-full overflow-hidden">
+                <span className="text-white">Socialismo</span>
+                <div className="w-2/3 h-4 bg-white/10 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-black" 
+                    className="h-full bg-white" 
                     style={{ width: '30%' }}
                   />
                 </div>
-                <span className="ml-2 font-medium">30%</span>
+                <span className="ml-2 font-medium text-white">30%</span>
               </div>
               
               <div className="flex justify-between items-center">
-                <span>Conservadurismo</span>
-                <div className="w-2/3 h-4 bg-gray-200 rounded-full overflow-hidden">
+                <span className="text-white">Conservadurismo</span>
+                <div className="w-2/3 h-4 bg-white/10 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-black" 
+                    className="h-full bg-white" 
                     style={{ width: '45%' }}
                   />
                 </div>
-                <span className="ml-2 font-medium">45%</span>
+                <span className="ml-2 font-medium text-white">45%</span>
               </div>
             </div>
             
-            <p className="text-gray-700 mb-6">
+            <p className="text-white/90 mb-6">
               Basado en tus respuestas, tus ideas se alinean más con el Liberalismo, 
               aunque también muestras afinidad con el Conservadurismo en algunos aspectos.
             </p>
             
             <div className="flex justify-center">
-              <Button onClick={resetTest}>
+              <Button 
+                onClick={resetTest}
+                className="bg-white/10 hover:bg-white/20 text-white border border-white/20"
+              >
                 Reiniciar test
               </Button>
             </div>
