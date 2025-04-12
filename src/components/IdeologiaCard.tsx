@@ -25,15 +25,30 @@ const IdeologiaCard = ({ nombre, path }: IdeologiaCardProps) => {
   // Get background image for this ideology
   const backgroundImage = ideologyBackgrounds[nombre] || '';
   
-  // Use consistent styling for all texts (ensure all texts are the same color for HOME screen)
+  // Map of ideologies to their gradient backgrounds
+  const ideologyGradients: Record<string, string> = {
+    'Liberalismo': 'bg-gradient-to-b from-yellow-500 to-yellow-400', // Dorado
+    'Marxismo': 'bg-gradient-to-b from-red-700 to-red-600', // Rojo metálico
+    'Socialismo': 'bg-gradient-to-b from-red-400 to-pink-400', // Rojo rosado
+    'Capitalismo': 'bg-gradient-to-b from-green-600 to-green-500', // Verde dólar
+    'Conservadurismo': 'bg-gray-300', // Gris claro (no gradient)
+    'AnarcoCapitalismo': 'bg-gradient-to-b from-yellow-400 to-black', // Mitad amarillo, mitad negro
+    'Mercantilismo': 'bg-gradient-to-b from-yellow-500 to-gray-400', // Mitad dorado, mitad plateado
+    'Keynesianismo': 'bg-gradient-to-b from-blue-300 to-blue-400', // Celeste azulado
+  };
+  
+  // Get gradient background class for this ideology
+  const gradientClass = ideologyGradients[nombre] || 'bg-gray-100';
+  
+  // Use consistent styling for all texts
   const textColor = 'text-white';
 
   return (
     <Link to={path} className="group">
       <div 
-        className={`rounded-lg p-6 flex flex-col items-center justify-center min-h-[180px] overflow-hidden relative transition-all duration-200 hover:shadow-md hover:-translate-y-1 hover:scale-[1.02] hover:brightness-110`}
+        className={`rounded-lg p-6 flex flex-col items-center justify-center min-h-[180px] overflow-hidden relative transition-all duration-200 hover:shadow-md hover:-translate-y-1 hover:scale-[1.02] hover:brightness-110 ${gradientClass}`}
         style={{ 
-          backgroundImage: backgroundImage,
+          backgroundImage: backgroundImage ? backgroundImage : 'none',
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}

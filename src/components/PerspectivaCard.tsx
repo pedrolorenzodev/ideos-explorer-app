@@ -23,7 +23,7 @@ const PerspectivaCard = ({ nombre, ideologia, descripcion, color }: PerspectivaC
     };
     
     const gradient = gradients[ideologyName];
-    return gradient ? `bg-gradient-to-b ${gradient}` : 'bg-gray-100';
+    return gradient && !gradient.startsWith('bg-') ? `bg-gradient-to-b ${gradient}` : (gradient || 'bg-gray-100');
   };
 
   return (
