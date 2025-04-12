@@ -1,5 +1,7 @@
+
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+
 interface IdeologiaCardProps {
   nombre: string;
   icono: ReactNode;
@@ -7,11 +9,8 @@ interface IdeologiaCardProps {
   background?: string;
   color?: string;
 }
-const IdeologiaCard = ({
-  nombre,
-  path,
-  background
-}: IdeologiaCardProps) => {
+
+const IdeologiaCard = ({ nombre, path, background }: IdeologiaCardProps) => {
   // Map of ideologies to their background images
   const ideologyBackgrounds: Record<string, string> = {
     'Liberalismo': 'url(/lovable-uploads/4181f1bc-e159-459e-9c40-242c22f2b362.png)',
@@ -21,25 +20,30 @@ const IdeologiaCard = ({
     'Conservadurismo': 'url(/lovable-uploads/e05079d9-dc3c-44ff-bb15-29054e4a0f9f.png)',
     'AnarcoCapitalismo': 'url(/lovable-uploads/9193583a-7be4-4492-9b0b-b801e554b11a.png)',
     'Mercantilismo': 'url(/lovable-uploads/a4c4b819-c6bf-460c-a646-b85b3a510b3b.png)',
-    'Keynesianismo': 'url(/lovable-uploads/1b600820-d276-4227-9116-bc0ee5f9db74.png)'
+    'Keynesianismo': 'url(/lovable-uploads/1b600820-d276-4227-9116-bc0ee5f9db74.png)',
   };
-
+  
   // Get background image for this ideology
   const backgroundImage = ideologyBackgrounds[nombre] || '';
-
+  
   // Use the new background property directly 
   const gradientClass = background || 'bg-gray-100';
-
+  
   // Use consistent styling for all texts
   const textColor = 'text-white';
-  return <Link to={path} className="group">
-      <div className={`rounded-lg p-6 flex flex-col items-center justify-center min-h-[180px] overflow-hidden relative transition-all duration-200 hover:shadow-md hover:-translate-y-1 hover:scale-[1.02] hover:brightness-110 ${gradientClass}`} style={{
-      backgroundImage: backgroundImage ? backgroundImage : 'none',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center'
-    }}>
+
+  return (
+    <Link to={path} className="group">
+      <div 
+        className={`rounded-lg p-6 flex flex-col items-center justify-center min-h-[180px] overflow-hidden relative transition-all duration-200 hover:shadow-md hover:-translate-y-1 hover:scale-[1.02] hover:brightness-110 ${gradientClass}`}
+        style={{ 
+          backgroundImage: backgroundImage ? backgroundImage : 'none',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
         {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#F59E0B] to-[#FBBF24] transition-opacity duration-200 group-hover:opacity-80\n"></div>
+        <div className="absolute inset-0 bg-black bg-opacity-40 transition-opacity duration-200 group-hover:bg-opacity-30"></div>
         
         {/* Card content */}
         <div className="relative z-10 flex flex-col items-center justify-center">
@@ -48,6 +52,8 @@ const IdeologiaCard = ({
           </h3>
         </div>
       </div>
-    </Link>;
+    </Link>
+  );
 };
+
 export default IdeologiaCard;
