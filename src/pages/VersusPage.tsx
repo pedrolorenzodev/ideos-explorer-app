@@ -1,9 +1,6 @@
-
 import BottomNavigation from '@/components/BottomNavigation';
 import FloatingButtons from '@/components/FloatingButtons';
-import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Swords } from 'lucide-react';
 import { useState } from 'react';
@@ -61,7 +58,7 @@ const VersusPage = () => {
     AnarcoCapitalismo: [
       { nombre: 'Murray Rothbard', imagen: 'https://images.unsplash.com/photo-1439778615639-28529f7628bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjF8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
       { nombre: 'David Friedman', imagen: 'https://images.unsplash.com/photo-1548372290-8b01db56211d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
-      { nombre: 'Hans-Hermann Hoppe', imagen: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
+      { nombre: 'Hans-Hermann Hoppe', imagen: 'https://images.unsplash.com/photo-1492562083143-e81e7a2c9349?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
       { nombre: 'Lysander Spooner', imagen: 'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fHBoaWxvc29waGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
     ],
     Mercantilismo: [
@@ -110,40 +107,54 @@ const VersusPage = () => {
     setRepresentante2('');
   };
   
+  // Get background color based on ideology
+  const getIdeologyBackgroundColor = (ideology: string): string => {
+    const colors: Record<string, string> = {
+      'Liberalismo': 'bg-gradient-to-b from-yellow-500 to-yellow-400', // Dorado
+      'Marxismo': 'bg-gradient-to-b from-red-700 to-red-600', // Rojo metálico
+      'Socialismo': 'bg-gradient-to-b from-red-400 to-pink-400', // Rojo rosado
+      'Capitalismo': 'bg-gradient-to-b from-green-600 to-green-500', // Verde dólar
+      'Conservadurismo': 'bg-gray-300', // Gris claro
+      'AnarcoCapitalismo': 'bg-gradient-to-b from-yellow-400 to-black', // Mitad amarillo, mitad negro
+      'Mercantilismo': 'bg-gradient-to-b from-yellow-500 to-gray-400', // Mitad dorado, mitad plateado
+      'Keynesianismo': 'bg-gradient-to-b from-blue-300 to-blue-400', // Celeste azulado
+    };
+    
+    return colors[ideology] || 'bg-gray-100';
+  };
+  
   return (
-    <div className="pb-20 animate-fade-in">
+    <div className="min-h-screen bg-orange-300 pb-20 animate-fade-in">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-2">
             <Swords className="mr-2" size={24} />
             <h1 className="text-2xl font-bold">Batallas de Ideas</h1>
           </div>
-          <p className="text-gray-600">Compara diferentes ideologías y sus posturas sobre un tema</p>
+          <p className="text-gray-700">Compara diferentes ideologías y sus posturas sobre un tema</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="space-y-4">
-            <div>
-              <p className="mb-2 font-medium">Primera ideología</p>
-              <Select onValueChange={handleIdeologia1Change} value={ideologia1}>
-                <SelectTrigger className="transition-all duration-200 hover:border-gray-400">
-                  <SelectValue placeholder="Selecciona una ideología" />
-                </SelectTrigger>
-                <SelectContent>
-                  {ideologias.map((ideologia) => (
-                    <SelectItem key={ideologia} value={ideologia} className="cursor-pointer">
-                      {ideologia}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            <p className="mb-2 font-medium">Primera ideología</p>
+            <Select onValueChange={handleIdeologia1Change} value={ideologia1}>
+              <SelectTrigger className="transition-all border-transparent bg-white/70 backdrop-blur-sm duration-200 hover:border-gray-400">
+                <SelectValue placeholder="Selecciona una ideología" />
+              </SelectTrigger>
+              <SelectContent>
+                {ideologias.map((ideologia) => (
+                  <SelectItem key={ideologia} value={ideologia} className="cursor-pointer">
+                    {ideologia}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             
             {ideologia1 && (
-              <div>
+              <>
                 <p className="mb-2 font-medium">Representante</p>
                 <Select onValueChange={setRepresentante1} value={representante1}>
-                  <SelectTrigger className="transition-all duration-200 hover:border-gray-400">
+                  <SelectTrigger className="transition-all border-transparent bg-white/70 backdrop-blur-sm duration-200 hover:border-gray-400">
                     <SelectValue placeholder="Selecciona un representante" />
                   </SelectTrigger>
                   <SelectContent>
@@ -163,32 +174,52 @@ const VersusPage = () => {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+                
+                {representante1 && (
+                  <div className={`p-4 rounded-lg ${getIdeologyBackgroundColor(ideologia1)}`}>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                      {representantes[ideologia1 as keyof typeof representantes]?.map((representante) => (
+                        <div 
+                          key={representante.nombre}
+                          className={`flex flex-col items-center p-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 ${
+                            representante.nombre === representante1 ? 'bg-white/30 shadow-md' : 'bg-white/10'
+                          }`}
+                          onClick={() => setRepresentante1(representante.nombre)}
+                        >
+                          <Avatar className="h-12 w-12 mb-2">
+                            <AvatarImage src={representante.imagen} alt={representante.nombre} />
+                            <AvatarFallback>{representante.nombre.charAt(0)}</AvatarFallback>
+                          </Avatar>
+                          <span className="text-xs text-center font-medium">{representante.nombre}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
           
           <div className="space-y-4">
-            <div>
-              <p className="mb-2 font-medium">Segunda ideología</p>
-              <Select onValueChange={handleIdeologia2Change} value={ideologia2}>
-                <SelectTrigger className="transition-all duration-200 hover:border-gray-400">
-                  <SelectValue placeholder="Selecciona una ideología" />
-                </SelectTrigger>
-                <SelectContent>
-                  {ideologias.map((ideologia) => (
-                    <SelectItem key={ideologia} value={ideologia} className="cursor-pointer">
-                      {ideologia}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            <p className="mb-2 font-medium">Segunda ideología</p>
+            <Select onValueChange={handleIdeologia2Change} value={ideologia2}>
+              <SelectTrigger className="transition-all border-transparent bg-white/70 backdrop-blur-sm duration-200 hover:border-gray-400">
+                <SelectValue placeholder="Selecciona una ideología" />
+              </SelectTrigger>
+              <SelectContent>
+                {ideologias.map((ideologia) => (
+                  <SelectItem key={ideologia} value={ideologia} className="cursor-pointer">
+                    {ideologia}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             
             {ideologia2 && (
-              <div>
+              <>
                 <p className="mb-2 font-medium">Representante</p>
                 <Select onValueChange={setRepresentante2} value={representante2}>
-                  <SelectTrigger className="transition-all duration-200 hover:border-gray-400">
+                  <SelectTrigger className="transition-all border-transparent bg-white/70 backdrop-blur-sm duration-200 hover:border-gray-400">
                     <SelectValue placeholder="Selecciona un representante" />
                   </SelectTrigger>
                   <SelectContent>
@@ -208,70 +239,94 @@ const VersusPage = () => {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+                
+                {representante2 && (
+                  <div className={`p-4 rounded-lg ${getIdeologyBackgroundColor(ideologia2)}`}>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                      {representantes[ideologia2 as keyof typeof representantes]?.map((representante) => (
+                        <div 
+                          key={representante.nombre}
+                          className={`flex flex-col items-center p-2 rounded-lg cursor-pointer transition-all duration-200 hover:scale-105 ${
+                            representante.nombre === representante2 ? 'bg-white/30 shadow-md' : 'bg-white/10'
+                          }`}
+                          onClick={() => setRepresentante2(representante.nombre)}
+                        >
+                          <Avatar className="h-12 w-12 mb-2">
+                            <AvatarImage src={representante.imagen} alt={representante.nombre} />
+                            <AvatarFallback>{representante.nombre.charAt(0)}</AvatarFallback>
+                          </Avatar>
+                          <span className="text-xs text-center font-medium">{representante.nombre}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
         
-        <div className="mb-8">
-          <p className="mb-2 font-medium">Tema a comparar</p>
-          <Select onValueChange={setTema} value={tema}>
-            <SelectTrigger className="transition-all duration-200 hover:border-gray-400">
-              <SelectValue placeholder="Selecciona un tema" />
-            </SelectTrigger>
-            <SelectContent>
-              {temas.map((tema) => (
-                <SelectItem key={tema} value={tema} className="cursor-pointer">
-                  {tema}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        {ideologia1 && ideologia2 && representante1 && representante2 && (
+          <div className="mb-8">
+            <p className="mb-2 font-medium">Tema a comparar</p>
+            <Select onValueChange={setTema} value={tema}>
+              <SelectTrigger className="transition-all border-transparent bg-white/70 backdrop-blur-sm duration-200 hover:border-gray-400">
+                <SelectValue placeholder="Selecciona un tema" />
+              </SelectTrigger>
+              <SelectContent>
+                {temas.map((tema) => (
+                  <SelectItem key={tema} value={tema} className="cursor-pointer">
+                    {tema}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
         
         {ideologia1 && ideologia2 && representante1 && representante2 && tema && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="p-5 card-hover">
+            <div className={`p-5 rounded-lg shadow-md transition-all duration-200 hover:shadow-lg hover:scale-[1.01] ${getIdeologyBackgroundColor(ideologia1)}`}>
               <div className="flex items-center mb-4">
-                <Avatar className="h-12 w-12 mr-3">
+                <Avatar className="h-12 w-12 mr-3 border-2 border-white/50">
                   <AvatarImage src={representante1Data?.imagen} alt={representante1} />
                   <AvatarFallback>{representante1.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <h3 className="text-xl font-medium mb-1 text-ideologia-liberalismo">{ideologia1}</h3>
-                  <p className="text-sm text-gray-500">Desde la perspectiva de {representante1}</p>
+                  <h3 className="text-xl font-medium mb-1 text-white">{ideologia1}</h3>
+                  <p className="text-sm text-white/80">Desde la perspectiva de {representante1}</p>
                 </div>
               </div>
               <div className="space-y-4">
-                <p className="text-gray-700">
+                <p className="text-white/90">
                   Postura de {representante1} sobre {tema.toLowerCase()} según los principios del {ideologia1}.
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-white/70">
                   * Este contenido representa el pensamiento de {representante1} sobre este tema.
                 </p>
               </div>
-            </Card>
+            </div>
             
-            <Card className="p-5 card-hover">
+            <div className={`p-5 rounded-lg shadow-md transition-all duration-200 hover:shadow-lg hover:scale-[1.01] ${getIdeologyBackgroundColor(ideologia2)}`}>
               <div className="flex items-center mb-4">
-                <Avatar className="h-12 w-12 mr-3">
+                <Avatar className="h-12 w-12 mr-3 border-2 border-white/50">
                   <AvatarImage src={representante2Data?.imagen} alt={representante2} />
                   <AvatarFallback>{representante2.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <h3 className="text-xl font-medium mb-1 text-ideologia-marxismo">{ideologia2}</h3>
-                  <p className="text-sm text-gray-500">Desde la perspectiva de {representante2}</p>
+                  <h3 className="text-xl font-medium mb-1 text-white">{ideologia2}</h3>
+                  <p className="text-sm text-white/80">Desde la perspectiva de {representante2}</p>
                 </div>
               </div>
               <div className="space-y-4">
-                <p className="text-gray-700">
+                <p className="text-white/90">
                   Postura de {representante2} sobre {tema.toLowerCase()} según los principios del {ideologia2}.
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-white/70">
                   * Este contenido representa el pensamiento de {representante2} sobre este tema.
                 </p>
               </div>
-            </Card>
+            </div>
           </div>
         )}
       </div>

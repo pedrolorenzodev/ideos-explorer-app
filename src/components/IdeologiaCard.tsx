@@ -25,15 +25,8 @@ const IdeologiaCard = ({ nombre, path }: IdeologiaCardProps) => {
   // Get background image for this ideology
   const backgroundImage = ideologyBackgrounds[nombre] || '';
   
-  // Determine text color based on ideology (for best contrast)
-  const getTextColor = (ideologyName: string): string => {
-    // Darker backgrounds need white text, lighter backgrounds need black text
-    const darkBackgrounds = ['Marxismo', 'Socialismo', 'Mercantilismo', 'Keynesianismo'];
-    return darkBackgrounds.includes(ideologyName) ? 'text-white' : 'text-black';
-  };
-
-  // Convert ideology name to lowercase for CSS classes
-  const ideologyClass = nombre.toLowerCase();
+  // Use consistent styling for all texts (ensure all texts are the same color for HOME screen)
+  const textColor = 'text-white';
 
   return (
     <Link to={path} className="group">
@@ -50,7 +43,7 @@ const IdeologiaCard = ({ nombre, path }: IdeologiaCardProps) => {
         
         {/* Card content */}
         <div className="relative z-10 flex flex-col items-center justify-center">
-          <h3 className={`text-2xl font-medium text-center ${getTextColor(nombre)} group-hover:scale-105 transition-transform duration-200 text-shadow`}>
+          <h3 className={`text-2xl font-medium text-center ${textColor} group-hover:scale-105 transition-transform duration-200 text-shadow`}>
             {nombre}
           </h3>
         </div>
