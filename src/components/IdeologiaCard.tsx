@@ -39,7 +39,7 @@ const IdeologiaCard = ({
       backgroundPosition: 'center'
     }}>
         {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#F59E0B] to-[#FBBF24] opacity-90 transition-opacity duration-200 group-hover:opacity-100"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#F59E0B] to-[#FBBF24] transition-opacity duration-200 group-hover:opacity-80\n"></div>
         
         {/* Card content */}
         <div className="relative z-10 flex flex-col items-center justify-center">
