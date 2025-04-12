@@ -8,51 +8,51 @@ const Index = () => {
   const ideologias = [
     { 
       nombre: 'Liberalismo', 
-      icono: <Bird className="text-ideologia-liberalismo" />, 
+      icono: <Bird className="text-white" />, 
       path: '/perspectiva/liberalismo',
-      color: 'text-ideologia-liberalismo'
+      background: 'bg-gradient-to-r from-yellow-500 to-yellow-400'
     },
     { 
       nombre: 'Marxismo', 
-      icono: <BookOpen className="text-ideologia-marxismo" />, 
+      icono: <BookOpen className="text-white" />, 
       path: '/perspectiva/marxismo',
-      color: 'text-ideologia-marxismo'
+      background: 'bg-gradient-to-r from-red-700 to-red-600'
     },
     { 
       nombre: 'Socialismo', 
-      icono: <Brain className="text-ideologia-socialismo" />, 
+      icono: <Brain className="text-white" />, 
       path: '/perspectiva/socialismo',
-      color: 'text-ideologia-socialismo'
+      background: 'bg-gradient-to-r from-red-400 to-pink-400'
     },
     { 
       nombre: 'Capitalismo', 
-      icono: <DollarSign className="text-ideologia-capitalismo" />, 
+      icono: <DollarSign className="text-white" />, 
       path: '/perspectiva/capitalismo',
-      color: 'text-ideologia-capitalismo'
+      background: 'bg-gradient-to-r from-green-600 to-green-500'
     },
     { 
       nombre: 'Conservadurismo', 
-      icono: <Shield className="text-ideologia-conservadurismo" />, 
+      icono: <Shield className="text-white" />, 
       path: '/perspectiva/conservadurismo',
-      color: 'text-ideologia-conservadurismo'
+      background: 'bg-gray-200'
     },
     { 
       nombre: 'AnarcoCapitalismo', 
-      icono: <Coins className="text-ideologia-anarcocapitalismo" />, 
+      icono: <Coins className="text-white" />, 
       path: '/perspectiva/anarcocapitalismo',
-      color: 'text-ideologia-anarcocapitalismo'
+      background: 'bg-gradient-to-r from-yellow-500 to-black'
     },
     { 
       nombre: 'Mercantilismo', 
-      icono: <Building className="text-ideologia-mercantilismo" />, 
+      icono: <Building className="text-white" />, 
       path: '/perspectiva/mercantilismo',
-      color: 'text-ideologia-mercantilismo'
+      background: 'bg-gradient-to-r from-yellow-500 to-gray-400'
     },
     { 
       nombre: 'Keynesianismo', 
-      icono: <CircleDollarSign className="text-ideologia-keynesianismo" />, 
+      icono: <CircleDollarSign className="text-white" />, 
       path: '/perspectiva/keynesianismo',
-      color: 'text-ideologia-keynesianismo'
+      background: 'bg-gradient-to-r from-blue-300 to-blue-400'
     },
   ];
 
@@ -74,7 +74,7 @@ const Index = () => {
               nombre={ideologia.nombre} 
               icono={ideologia.icono}
               path={ideologia.path}
-              color={ideologia.color}
+              background={ideologia.background}
             />
           ))}
         </div>

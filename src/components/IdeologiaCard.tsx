@@ -6,10 +6,11 @@ interface IdeologiaCardProps {
   nombre: string;
   icono: ReactNode;
   path: string;
+  background?: string;
   color?: string;
 }
 
-const IdeologiaCard = ({ nombre, path }: IdeologiaCardProps) => {
+const IdeologiaCard = ({ nombre, path, background }: IdeologiaCardProps) => {
   // Map of ideologies to their background images
   const ideologyBackgrounds: Record<string, string> = {
     'Liberalismo': 'url(/lovable-uploads/4181f1bc-e159-459e-9c40-242c22f2b362.png)',
@@ -25,20 +26,8 @@ const IdeologiaCard = ({ nombre, path }: IdeologiaCardProps) => {
   // Get background image for this ideology
   const backgroundImage = ideologyBackgrounds[nombre] || '';
   
-  // Map of ideologies to their gradient backgrounds
-  const ideologyGradients: Record<string, string> = {
-    'Liberalismo': 'bg-gradient-to-b from-yellow-500 to-yellow-400', // Dorado
-    'Marxismo': 'bg-gradient-to-b from-red-700 to-red-600', // Rojo metálico
-    'Socialismo': 'bg-gradient-to-b from-red-400 to-pink-400', // Rojo rosado
-    'Capitalismo': 'bg-gradient-to-b from-green-600 to-green-500', // Verde dólar
-    'Conservadurismo': 'bg-gray-300', // Gris claro (no gradient)
-    'AnarcoCapitalismo': 'bg-gradient-to-b from-yellow-400 to-black', // Mitad amarillo, mitad negro
-    'Mercantilismo': 'bg-gradient-to-b from-yellow-500 to-gray-400', // Mitad dorado, mitad plateado
-    'Keynesianismo': 'bg-gradient-to-b from-blue-300 to-blue-400', // Celeste azulado
-  };
-  
-  // Get gradient background class for this ideology
-  const gradientClass = ideologyGradients[nombre] || 'bg-gray-100';
+  // Use the new background property directly 
+  const gradientClass = background || 'bg-gray-100';
   
   // Use consistent styling for all texts
   const textColor = 'text-white';
