@@ -1,14 +1,16 @@
-
 import { Link } from 'react-router-dom';
-
 interface PerspectivaCardProps {
   nombre: string;
   ideologia: string;
   descripcion: string;
   color?: string;
 }
-
-const PerspectivaCard = ({ nombre, ideologia, descripcion, color }: PerspectivaCardProps) => {
+const PerspectivaCard = ({
+  nombre,
+  ideologia,
+  descripcion,
+  color
+}: PerspectivaCardProps) => {
   // Get ideology-specific background gradient
   const getIdeologyGradient = (ideologyName: string): string => {
     const gradients: Record<string, string> = {
@@ -19,9 +21,8 @@ const PerspectivaCard = ({ nombre, ideologia, descripcion, color }: PerspectivaC
       'Conservadurismo': 'bg-gray-200',
       'AnarcoCapitalismo': 'bg-gradient-to-r from-yellow-500 to-black',
       'Mercantilismo': 'bg-gradient-to-r from-yellow-500 to-gray-400',
-      'Keynesianismo': 'bg-gradient-to-r from-blue-300 to-blue-400',
+      'Keynesianismo': 'bg-gradient-to-r from-blue-300 to-blue-400'
     };
-    
     return gradients[ideologyName] || 'bg-gray-100';
   };
 
@@ -29,20 +30,15 @@ const PerspectivaCard = ({ nombre, ideologia, descripcion, color }: PerspectivaC
   const getTextColor = (ideologyName: string): string => {
     return ideologyName === 'Conservadurismo' ? 'text-gray-800' : 'text-white';
   };
-
   const textColor = getTextColor(ideologia);
-
-  return (
-    <Link to={`/ideologia/${ideologia}?perspectiva=${nombre}`} className="group">
+  return <Link to={`/ideologia/${ideologia}?perspectiva=${nombre}`} className="group">
       <div className={`rounded-lg p-5 transition-all duration-200 hover:shadow-md hover:-translate-y-1 hover:scale-[1.02] hover:brightness-110 ${getIdeologyGradient(ideologia)}`}>
-        <h3 className={`text-lg font-medium mb-2 ${textColor} relative inline-block`}>
+        <h3 className="text-blue-500 font-semibold">
           {nombre}
           <span className={`absolute bottom-0 left-0 w-0 h-0.5 ${textColor === 'text-white' ? 'bg-white' : 'bg-gray-800'} group-hover:w-full transition-all duration-300`}></span>
         </h3>
         <p className={`text-sm ${textColor === 'text-white' ? 'text-white/90' : 'text-gray-700'}`}>{descripcion}</p>
       </div>
-    </Link>
-  );
+    </Link>;
 };
-
 export default PerspectivaCard;
