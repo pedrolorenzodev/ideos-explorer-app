@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TestInteractivo from "./TestInteractivo";
 import GrandesReferentes from "./GrandesReferentes";
 import { ArrowLeft } from "lucide-react";
+import criticas from "../data/criticas";
 
 interface ContenidoTabProps {
   ideologia: string;
@@ -66,9 +67,15 @@ const ContenidoTab = ({ ideologia }: ContenidoTabProps) => {
     (item) => item.nombre !== ideologia
   );
 
-  // Get criticism content when an ideology is selected
+  // Get criticism content when an ideology is selected using the criticas object
   const getCriticaContent = (desde: string) => {
-    return `Crítica al ${ideologia} desde la perspectiva del ${desde}. Aquí se mostraría un análisis detallado de las debilidades y contradicciones del ${ideologia} según la visión del ${desde}.`;
+    if (
+      criticas[ideologia] && 
+      criticas[ideologia][desde]
+    ) {
+      return criticas[ideologia][desde];
+    }
+    return `Crítica al ${ideologia} desde la perspectiva del ${desde} no disponible.`;
   };
   
   const renderCriticasGrid = () => {
@@ -100,6 +107,10 @@ const ContenidoTab = ({ ideologia }: ContenidoTabProps) => {
     
     if (!ideologiaSeleccionada) return null;
     
+    // Format the criticism text - split by periods to create paragraphs
+    const criticaTexto = getCriticaContent(criticaSeleccionada);
+    const parrafos = criticaTexto.split('. ').filter(Boolean);
+    
     return (
       <div className="mt-4">
         <button 
@@ -114,9 +125,13 @@ const ContenidoTab = ({ ideologia }: ContenidoTabProps) => {
           <h2 className="text-xl font-bold mb-3 text-white">
             Crítica al {ideologia} desde el {criticaSeleccionada}
           </h2>
-          <p className="text-white/90">
-            {getCriticaContent(criticaSeleccionada)}
-          </p>
+          <div className="text-white/90 space-y-4">
+            {parrafos.map((parrafo, index) => (
+              <p key={index} className="text-justify">
+                {parrafo}{index < parrafos.length - 1 ? '.' : ''}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     );
