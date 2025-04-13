@@ -1,49 +1,50 @@
+
 import IdeologiaCard from '@/components/IdeologiaCard';
 import BottomNavigation from '@/components/BottomNavigation';
 import FloatingButtons from '@/components/FloatingButtons';
-import { ArrowRight, ArrowLeft } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const Index = () => {
   const ideologias = [
     { 
       nombre: 'Liberalismo', 
-      path: '/perspectiva/liberalismo',
-      background: 'bg-gradient-to-r from-[#F59E0B] to-[#FBBF24]'
+      path: '/ideologia/liberalismo',
+      background: 'bg-gradient-to-r from-yellow-500 to-yellow-400'
     },
     { 
       nombre: 'Marxismo', 
-      path: '/perspectiva/marxismo',
-      background: 'bg-gradient-to-r from-[#870E0E] to-[#DC2626]'
+      path: '/ideologia/marxismo',
+      background: 'bg-gradient-to-r from-red-700 to-red-600'
     },
     { 
       nombre: 'Socialismo', 
-      path: '/perspectiva/socialismo',
-      background: 'bg-gradient-to-r from-[#B93737] to-[#C16597]'
+      path: '/ideologia/socialismo',
+      background: 'bg-gradient-to-r from-red-400 to-pink-400'
     },
     { 
       nombre: 'Capitalismo', 
-      path: '/perspectiva/capitalismo',
-      background: 'bg-gradient-to-r from-[#27613C] to-[#00FF5E]'
+      path: '/ideologia/capitalismo',
+      background: 'bg-gradient-to-r from-green-600 to-green-500'
     },
     { 
       nombre: 'Conservadurismo', 
-      path: '/perspectiva/conservadurismo',
-      background: 'bg-gradient-to-r from-[#E7DEDE] to-[#5F5F5F]'
+      path: '/ideologia/conservadurismo',
+      background: 'bg-gray-200'
     },
     { 
       nombre: 'AnarcoCapitalismo', 
-      path: '/perspectiva/anarcocapitalismo',
-      background: 'bg-gradient-to-r from-[#F59E0B] to-[#000000]'
+      path: '/ideologia/anarcocapitalismo',
+      background: 'bg-gradient-to-r from-yellow-500 to-black'
     },
     { 
       nombre: 'Mercantilismo', 
-      path: '/perspectiva/mercantilismo',
-      background: 'bg-gradient-to-r from-[#F59E0B] to-[#9CA3AF]'
+      path: '/ideologia/mercantilismo',
+      background: 'bg-gradient-to-r from-yellow-500 to-gray-400'
     },
     { 
       nombre: 'Keynesianismo', 
-      path: '/perspectiva/keynesianismo',
-      background: 'bg-gradient-to-r from-[#93C5FD] to-[#60A5FA]'
+      path: '/ideologia/keynesianismo',
+      background: 'bg-gradient-to-r from-blue-300 to-blue-400'
     },
   ];
 

@@ -1,12 +1,127 @@
+
+import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TestInteractivo from "./TestInteractivo";
 import GrandesReferentes from "./GrandesReferentes";
+import { ArrowLeft } from "lucide-react";
 
 interface ContenidoTabProps {
   ideologia: string;
 }
 
+interface IdeologiaCritica {
+  nombre: string;
+  descripcion: string;
+  background: string;
+}
+
 const ContenidoTab = ({ ideologia }: ContenidoTabProps) => {
+  const [criticaSeleccionada, setCriticaSeleccionada] = useState<string | null>(null);
+  
+  const todasIdeologias: IdeologiaCritica[] = [
+    { 
+      nombre: 'Liberalismo', 
+      descripcion: 'Análisis desde la perspectiva del liberalismo clásico y moderno.',
+      background: 'bg-gradient-to-r from-yellow-500 to-yellow-400'
+    },
+    { 
+      nombre: 'Marxismo', 
+      descripcion: 'Visión desde el materialismo dialéctico y la crítica marxista.',
+      background: 'bg-gradient-to-r from-red-700 to-red-600'
+    },
+    { 
+      nombre: 'Socialismo', 
+      descripcion: 'Enfoque socialista sobre las relaciones económicas y sociales.',
+      background: 'bg-gradient-to-r from-red-400 to-pink-400'
+    },
+    { 
+      nombre: 'Capitalismo', 
+      descripcion: 'Perspectiva basada en los principios del mercado libre y la competencia.',
+      background: 'bg-gradient-to-r from-green-600 to-green-500'
+    },
+    { 
+      nombre: 'Conservadurismo', 
+      descripcion: 'Perspectiva basada en valores tradicionales y conservadores.',
+      background: 'bg-gray-200'
+    },
+    { 
+      nombre: 'AnarcoCapitalismo', 
+      descripcion: 'Crítica desde la abolición del Estado y el mercado absoluto.',
+      background: 'bg-gradient-to-r from-yellow-500 to-black'
+    },
+    { 
+      nombre: 'Mercantilismo', 
+      descripcion: 'Enfoque proteccionista y nacionalista del mercantilismo.',
+      background: 'bg-gradient-to-r from-yellow-500 to-gray-400'
+    },
+    { 
+      nombre: 'Keynesianismo', 
+      descripcion: 'Análisis keynesiano centrado en la intervención estatal.',
+      background: 'bg-gradient-to-r from-blue-300 to-blue-400'
+    },
+  ];
+  
+  // Filter out the current ideology from the criticism options
+  const ideologiasCritica = todasIdeologias.filter(
+    (item) => item.nombre !== ideologia
+  );
+
+  // Get criticism content when an ideology is selected
+  const getCriticaContent = (desde: string) => {
+    return `Crítica al ${ideologia} desde la perspectiva del ${desde}. Aquí se mostraría un análisis detallado de las debilidades y contradicciones del ${ideologia} según la visión del ${desde}.`;
+  };
+  
+  const renderCriticasGrid = () => {
+    return (
+      <div className="mt-4">
+        <h1 className="text-2xl font-bold text-center text-white mb-3">{ideologia}</h1>
+        <h3 className="text-lg font-medium text-center text-white/80 mb-6">¿Desde qué perspectiva quieres analizarla?</h3>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {ideologiasCritica.map((item) => (
+            <div 
+              key={item.nombre}
+              className={`${item.background} p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-all duration-200 hover:-translate-y-1`}
+              onClick={() => setCriticaSeleccionada(item.nombre)}
+            >
+              <h3 className="text-lg font-semibold mb-2 text-white">{item.nombre}</h3>
+              <p className="text-sm text-white/90">{item.descripcion}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+  
+  const renderCriticaDetalle = () => {
+    const ideologiaSeleccionada = todasIdeologias.find(
+      (item) => item.nombre === criticaSeleccionada
+    );
+    
+    if (!ideologiaSeleccionada) return null;
+    
+    return (
+      <div className="mt-4">
+        <button 
+          onClick={() => setCriticaSeleccionada(null)}
+          className="flex items-center text-blue-400 hover:text-blue-500 mb-4"
+        >
+          <ArrowLeft size={18} className="mr-1" />
+          <span>Volver a todas las críticas</span>
+        </button>
+        
+        <div className={`${ideologiaSeleccionada.background} p-6 rounded-lg shadow-md`}>
+          <h2 className="text-xl font-bold mb-3 text-white">
+            Crítica al {ideologia} desde el {criticaSeleccionada}
+          </h2>
+          <p className="text-white/90">
+            {getCriticaContent(criticaSeleccionada)}
+          </p>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <Tabs defaultValue="conceptos" className="w-full">
       <TabsList className="grid w-full grid-cols-5 bg-black/40 border border-white/20">
@@ -72,19 +187,7 @@ const ContenidoTab = ({ ideologia }: ContenidoTabProps) => {
         </div>
       </TabsContent>
       <TabsContent value="criticas" className="mt-4">
-        <div className="p-4 rounded-lg bg-white/5 border border-white/20">
-          <h3 className="text-lg font-semibold mb-2 text-white">Críticas Principales</h3>
-          <p className="text-white/80">
-            {ideologia === 'Liberalismo' && 'Se critica por aumentar la desigualdad económica y priorizar el beneficio individual sobre el bien común.'}
-            {ideologia === 'Marxismo' && 'Se critica por su visión determinista de la historia y por los regímenes autoritarios que se han inspirado en él.'}
-            {ideologia === 'Socialismo' && 'Se critica por la ineficiencia económica y la falta de incentivos individuales en sistemas de planificación central.'}
-            {ideologia === 'Capitalismo' && 'Se critica por generar desigualdades sociales y por priorizar el crecimiento económico sobre la sostenibilidad.'}
-            {ideologia === 'Conservadurismo' && 'Se critica por resistirse al cambio social y por mantener estructuras de poder tradicionales.'}
-            {ideologia === 'AnarcoCapitalismo' && 'Se critica por su utopismo y por la posibilidad de que derive en formas de opresión privada.'}
-            {ideologia === 'Mercantilismo' && 'Se critica por promover el proteccionismo y por su visión de suma cero en el comercio internacional.'}
-            {ideologia === 'Keynesianismo' && 'Se critica por el endeudamiento público y por la posibilidad de generar inflación.'}
-          </p>
-        </div>
+        {criticaSeleccionada ? renderCriticaDetalle() : renderCriticasGrid()}
       </TabsContent>
       <TabsContent value="test" className="mt-4">
         <TestInteractivo ideologia={ideologia} />
