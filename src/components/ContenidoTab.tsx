@@ -5,6 +5,8 @@ import TestInteractivo from "./TestInteractivo";
 import GrandesReferentes from "./GrandesReferentes";
 import { ArrowLeft } from "lucide-react";
 import criticas from "../data/criticas";
+import { ideologiaColores } from "../data/colores";
+import { ideologiaContenido } from "../data/contenido";
 
 interface ContenidoTabProps {
   ideologia: string;
@@ -19,46 +21,57 @@ interface IdeologiaCritica {
 const ContenidoTab = ({ ideologia }: ContenidoTabProps) => {
   const [criticaSeleccionada, setCriticaSeleccionada] = useState<string | null>(null);
   
+  // Get background gradient for the selected ideology
+  const getBackgroundGradient = (ideologiaNombre: string) => {
+    return ideologiaColores[ideologiaNombre] || "";
+  };
+  
+  // Determine text color based on background (for contrast)
+  const getTextColor = (ideologiaNombre: string) => {
+    const darkBackgrounds = ["Marxismo", "Socialismo", "Capitalismo", "Conservadurismo", "AnarcoCapitalismo", "Mercantilismo", "Keynesianismo"];
+    return darkBackgrounds.includes(ideologiaNombre) ? "text-white" : "text-black";
+  };
+  
   const todasIdeologias: IdeologiaCritica[] = [
     { 
       nombre: 'Liberalismo', 
       descripcion: 'Análisis desde la perspectiva del liberalismo clásico y moderno.',
-      background: 'bg-gradient-to-r from-yellow-500 to-yellow-400'
+      background: getBackgroundGradient('Liberalismo')
     },
     { 
       nombre: 'Marxismo', 
       descripcion: 'Visión desde el materialismo dialéctico y la crítica marxista.',
-      background: 'bg-gradient-to-r from-red-700 to-red-600'
+      background: getBackgroundGradient('Marxismo')
     },
     { 
       nombre: 'Socialismo', 
       descripcion: 'Enfoque socialista sobre las relaciones económicas y sociales.',
-      background: 'bg-gradient-to-r from-red-400 to-pink-400'
+      background: getBackgroundGradient('Socialismo')
     },
     { 
       nombre: 'Capitalismo', 
       descripcion: 'Perspectiva basada en los principios del mercado libre y la competencia.',
-      background: 'bg-gradient-to-r from-green-600 to-green-500'
+      background: getBackgroundGradient('Capitalismo')
     },
     { 
       nombre: 'Conservadurismo', 
       descripcion: 'Perspectiva basada en valores tradicionales y conservadores.',
-      background: 'bg-gray-200'
+      background: getBackgroundGradient('Conservadurismo')
     },
     { 
       nombre: 'AnarcoCapitalismo', 
       descripcion: 'Crítica desde la abolición del Estado y el mercado absoluto.',
-      background: 'bg-gradient-to-r from-yellow-500 to-black'
+      background: getBackgroundGradient('AnarcoCapitalismo')
     },
     { 
       nombre: 'Mercantilismo', 
       descripcion: 'Enfoque proteccionista y nacionalista del mercantilismo.',
-      background: 'bg-gradient-to-r from-yellow-500 to-gray-400'
+      background: getBackgroundGradient('Mercantilismo')
     },
     { 
       nombre: 'Keynesianismo', 
       descripcion: 'Análisis keynesiano centrado en la intervención estatal.',
-      background: 'bg-gradient-to-r from-blue-300 to-blue-400'
+      background: getBackgroundGradient('Keynesianismo')
     },
   ];
   
@@ -88,11 +101,12 @@ const ContenidoTab = ({ ideologia }: ContenidoTabProps) => {
           {ideologiasCritica.map((item) => (
             <div 
               key={item.nombre}
-              className={`${item.background} p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-all duration-200 hover:-translate-y-1`}
+              className={`p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-all duration-200 hover:-translate-y-1`}
+              style={{ background: item.background }}
               onClick={() => setCriticaSeleccionada(item.nombre)}
             >
-              <h3 className="text-lg font-semibold mb-2 text-white">{item.nombre}</h3>
-              <p className="text-sm text-white/90">{item.descripcion}</p>
+              <h3 className={`text-lg font-semibold mb-2 ${getTextColor(item.nombre)}`}>{item.nombre}</h3>
+              <p className={`text-sm ${getTextColor(item.nombre)}/90`}>{item.descripcion}</p>
             </div>
           ))}
         </div>
@@ -121,17 +135,63 @@ const ContenidoTab = ({ ideologia }: ContenidoTabProps) => {
           <span>Volver a todas las críticas</span>
         </button>
         
-        <div className={`${ideologiaSeleccionada.background} p-6 rounded-lg shadow-md`}>
-          <h2 className="text-xl font-bold mb-3 text-white">
+        <div style={{ background: ideologiaSeleccionada.background }} className="p-6 rounded-lg shadow-md">
+          <h2 className={`text-xl font-bold mb-3 ${getTextColor(ideologiaSeleccionada.nombre)}`}>
             Crítica al {ideologia} desde el {criticaSeleccionada}
           </h2>
-          <div className="text-white/90 space-y-4">
+          <div className={`${getTextColor(ideologiaSeleccionada.nombre)}/90 space-y-4`}>
             {parrafos.map((parrafo, index) => (
               <p key={index} className="text-justify">
                 {parrafo}{index < parrafos.length - 1 ? '.' : ''}
               </p>
             ))}
           </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderConceptosClave = () => {
+    const conceptos = ideologiaContenido[ideologia]?.conceptosClave || [];
+    
+    return (
+      <div className="p-4 rounded-lg border border-white/20">
+        <div 
+          className="p-4 rounded-lg mb-4"
+          style={{ background: getBackgroundGradient(ideologia) }}
+        >
+          <h3 className={`text-lg font-semibold mb-2 ${getTextColor(ideologia)}`}>Conceptos Clave</h3>
+        </div>
+        
+        <ol className="list-decimal pl-6 space-y-4">
+          {conceptos.map((concepto, index) => (
+            <li key={index} className="text-white/90">
+              <span className="font-bold">{concepto.titulo}:</span> {concepto.descripcion}
+            </li>
+          ))}
+        </ol>
+      </div>
+    );
+  };
+
+  const renderIdeasPrincipales = () => {
+    const ideas = ideologiaContenido[ideologia]?.ideasPrincipales || [];
+    
+    return (
+      <div className="p-4 rounded-lg border border-white/20">
+        <div 
+          className="p-4 rounded-lg mb-4"
+          style={{ background: getBackgroundGradient(ideologia) }}
+        >
+          <h3 className={`text-lg font-semibold mb-2 ${getTextColor(ideologia)}`}>Ideas Principales</h3>
+        </div>
+        
+        <div className="space-y-4">
+          {ideas.map((idea, index) => (
+            <p key={index} className="text-white/90 text-justify">
+              {idea}
+            </p>
+          ))}
         </div>
       </div>
     );
@@ -172,34 +232,10 @@ const ContenidoTab = ({ ideologia }: ContenidoTabProps) => {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="conceptos" className="mt-4">
-        <div className="p-4 rounded-lg bg-white/5 border border-white/20">
-          <h3 className="text-lg font-semibold mb-2 text-white">Conceptos Clave</h3>
-          <p className="text-white/80">
-            {ideologia === 'Liberalismo' && 'El liberalismo es una filosofía política y económica que defiende la libertad individual, la propiedad privada y la limitación del poder del Estado.'}
-            {ideologia === 'Marxismo' && 'El marxismo es una teoría social, económica y política que analiza el capitalismo y propone una sociedad sin clases.'}
-            {ideologia === 'Socialismo' && 'El socialismo es un sistema económico y social que busca la propiedad colectiva de los medios de producción.'}
-            {ideologia === 'Capitalismo' && 'El capitalismo es un sistema económico basado en la propiedad privada de los medios de producción y la libre empresa.'}
-            {ideologia === 'Conservadurismo' && 'El conservadurismo es una filosofía política que busca preservar las instituciones tradicionales y los valores sociales establecidos.'}
-            {ideologia === 'AnarcoCapitalismo' && 'El anarcocapitalismo es una filosofía política que propone la eliminación del Estado y la organización de la sociedad mediante el mercado libre.'}
-            {ideologia === 'Mercantilismo' && 'El mercantilismo es una teoría económica que promueve la intervención gubernamental en la economía para aumentar el poder nacional.'}
-            {ideologia === 'Keynesianismo' && 'El keynesianismo es una teoría económica que aboga por la intervención del Estado en la economía para mantener el pleno empleo.'}
-          </p>
-        </div>
+        {renderConceptosClave()}
       </TabsContent>
       <TabsContent value="ideas" className="mt-4">
-        <div className="p-4 rounded-lg bg-white/5 border border-white/20">
-          <h3 className="text-lg font-semibold mb-2 text-white">Ideas Principales</h3>
-          <p className="text-white/80">
-            {ideologia === 'Liberalismo' && 'La libertad individual, el libre mercado, la propiedad privada y el Estado limitado son los pilares del liberalismo.'}
-            {ideologia === 'Marxismo' && 'La lucha de clases, la plusvalía, la dictadura del proletariado y la abolición de la propiedad privada son conceptos centrales.'}
-            {ideologia === 'Socialismo' && 'La igualdad social, la propiedad colectiva, la planificación económica y la justicia distributiva son principios fundamentales.'}
-            {ideologia === 'Capitalismo' && 'El libre mercado, la competencia, la iniciativa privada y la acumulación de capital son elementos esenciales.'}
-            {ideologia === 'Conservadurismo' && 'La tradición, el orden social, la autoridad y los valores morales tradicionales son valores centrales.'}
-            {ideologia === 'AnarcoCapitalismo' && 'La libertad absoluta, la propiedad privada, el mercado libre y la eliminación del Estado son principios fundamentales.'}
-            {ideologia === 'Mercantilismo' && 'El proteccionismo, la balanza comercial favorable, la acumulación de metales preciosos y el poder estatal son elementos clave.'}
-            {ideologia === 'Keynesianismo' && 'La intervención estatal, el gasto público, la política fiscal y el pleno empleo son conceptos centrales.'}
-          </p>
-        </div>
+        {renderIdeasPrincipales()}
       </TabsContent>
       <TabsContent value="criticas" className="mt-4">
         {criticaSeleccionada ? renderCriticaDetalle() : renderCriticasGrid()}

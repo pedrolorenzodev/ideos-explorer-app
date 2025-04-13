@@ -3,48 +3,49 @@ import IdeologiaCard from '@/components/IdeologiaCard';
 import BottomNavigation from '@/components/BottomNavigation';
 import FloatingButtons from '@/components/FloatingButtons';
 import { ArrowRight } from 'lucide-react';
+import { ideologiaColores } from '@/data/colores';
 
 const Index = () => {
   const ideologias = [
     { 
       nombre: 'Liberalismo', 
       path: '/ideologia/liberalismo',
-      background: 'bg-gradient-to-r from-yellow-500 to-yellow-400'
+      background: ideologiaColores.Liberalismo
     },
     { 
       nombre: 'Marxismo', 
       path: '/ideologia/marxismo',
-      background: 'bg-gradient-to-r from-red-700 to-red-600'
+      background: ideologiaColores.Marxismo
     },
     { 
       nombre: 'Socialismo', 
       path: '/ideologia/socialismo',
-      background: 'bg-gradient-to-r from-red-400 to-pink-400'
+      background: ideologiaColores.Socialismo
     },
     { 
       nombre: 'Capitalismo', 
       path: '/ideologia/capitalismo',
-      background: 'bg-gradient-to-r from-green-600 to-green-500'
+      background: ideologiaColores.Capitalismo
     },
     { 
       nombre: 'Conservadurismo', 
       path: '/ideologia/conservadurismo',
-      background: 'bg-gray-200'
+      background: ideologiaColores.Conservadurismo
     },
     { 
       nombre: 'AnarcoCapitalismo', 
       path: '/ideologia/anarcocapitalismo',
-      background: 'bg-gradient-to-r from-yellow-500 to-black'
+      background: ideologiaColores.AnarcoCapitalismo
     },
     { 
       nombre: 'Mercantilismo', 
       path: '/ideologia/mercantilismo',
-      background: 'bg-gradient-to-r from-yellow-500 to-gray-400'
+      background: ideologiaColores.Mercantilismo
     },
     { 
       nombre: 'Keynesianismo', 
       path: '/ideologia/keynesianismo',
-      background: 'bg-gradient-to-r from-blue-300 to-blue-400'
+      background: ideologiaColores.Keynesianismo
     },
   ];
 
