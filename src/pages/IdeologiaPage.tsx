@@ -19,7 +19,7 @@ const IdeologiaPage = () => {
     // Convert to capitalized format for lookup in ideologiaColores
     const lookupName = name === 'anarcocapitalismo' ? 'AnarcoCapitalismo' : 
                       name.charAt(0).toUpperCase() + name.slice(1);
-    return ideologiaColores[lookupName] || '';
+    return ideologiaColores[lookupName as keyof typeof ideologiaColores] || '';
   };
 
   // Determine text color based on background (for contrast)

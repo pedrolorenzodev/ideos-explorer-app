@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Send } from 'lucide-react';
@@ -6,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import BottomNavigation from '@/components/BottomNavigation';
 import FloatingButtons from '@/components/FloatingButtons';
 import PersonIcon from '@mui/icons-material/Person';
+import { ideologiaColores } from '@/data/colores';
 
 const ChatPage = () => {
   const [searchParams] = useSearchParams();
@@ -100,23 +102,20 @@ const ChatPage = () => {
     setIsLoading(false);
   };
 
-  // Get background color based on ideology
-  const getIdeologyBackgroundColor = (ideologyName: string): string => {
-    const backgrounds: Record<string, string> = {
-      'Liberalismo': 'bg-gradient-to-r from-yellow-500 to-yellow-400',
-      'Marxismo': 'bg-gradient-to-r from-red-700 to-red-600',
-      'Socialismo': 'bg-gradient-to-r from-red-400 to-pink-400',
-      'Capitalismo': 'bg-gradient-to-r from-green-600 to-green-500',
-      'Conservadurismo': 'bg-gray-200',
-      'AnarcoCapitalismo': 'bg-gradient-to-r from-yellow-500 to-black',
-      'Mercantilismo': 'bg-gradient-to-r from-yellow-500 to-gray-400',
-      'Keynesianismo': 'bg-gradient-to-r from-blue-300 to-blue-400'
-    };
-    return backgrounds[ideologyName] || 'bg-gray-100';
+  // Get background color based on ideology using the ideologiaColores object
+  const getIdeologyBackground = (ideologyName: string): string => {
+    // Use the capitalized version for lookup
+    const formattedName = ideologyName.charAt(0).toUpperCase() + ideologyName.slice(1);
+    return ideologiaColores[formattedName as keyof typeof ideologiaColores] || '';
   };
 
+  // Set a background gradient for the page
+  const pageBackground = ideologia 
+    ? `linear-gradient(to bottom, rgba(30, 30, 30, 1) 0%, rgba(20, 20, 20, 0.95) 100%)`
+    : 'bg-background';
+
   return (
-    <div className="pb-20 h-screen flex flex-col animate-fade-in">
+    <div className="pb-20 h-screen flex flex-col animate-fade-in" style={{ background: pageBackground }}>
       <div className="flex-1 max-w-4xl mx-auto px-4 py-8 w-full flex flex-col">
         <div className="mb-6">
           {personajeSeleccionado ? (
@@ -134,22 +133,32 @@ const ChatPage = () => {
             </Link>
           )}
           
-          <h1 className="text-2xl font-bold text-white">Chat con Personajes</h1>
-          {ideologia && (
-            <p className="text-white/80">
-              Dialogando sobre {ideologia.charAt(0).toUpperCase() + ideologia.slice(1)}
-            </p>
-          )}
+          <div 
+            className="p-4 rounded-lg mb-4"
+            style={{ 
+              background: ideologia ? getIdeologyBackground(ideologia) : 'transparent' 
+            }}
+          >
+            <h1 className="text-2xl font-bold text-white">Chat con Personajes</h1>
+            {ideologia && (
+              <p className="text-white/80">
+                Dialogando sobre {ideologia.charAt(0).toUpperCase() + ideologia.slice(1)}
+              </p>
+            )}
+          </div>
         </div>
         
         {!personajeSeleccionado ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
             {personajes
               .filter(p => !ideologia || p.ideologia.toLowerCase() === ideologia.toLowerCase())
               .map((personaje) => (
                 <div 
                   key={personaje.nombre}
-                  className={`p-4 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 ${getIdeologyBackgroundColor(personaje.ideologia)}`}
+                  className="p-4 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105"
+                  style={{ 
+                    background: getIdeologyBackground(personaje.ideologia) 
+                  }}
                   onClick={() => handleSelectPersonaje(personaje)}
                 >
                   <div className="flex flex-col items-center">
@@ -214,7 +223,7 @@ const ChatPage = () => {
         )}
       </div>
       
-      <FloatingButtons />
+      <FloatingButtons ideologia={ideologia || undefined} />
       <BottomNavigation />
     </div>
   );

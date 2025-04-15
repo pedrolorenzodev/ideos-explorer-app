@@ -1,10 +1,11 @@
+
 import BottomNavigation from '@/components/BottomNavigation';
 import FloatingButtons from '@/components/FloatingButtons';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Swords } from 'lucide-react';
 import { useState } from 'react';
 import PersonIcon from '@mui/icons-material/Person';
+import { ideologiaColores } from '@/data/colores';
 
 const VersusPage = () => {
   const [ideologia1, setIdeologia1] = useState('');
@@ -108,20 +109,9 @@ const VersusPage = () => {
     setRepresentante2('');
   };
   
-  // Get background color based on ideology
-  const getIdeologyBackgroundColor = (ideology: string): string => {
-    const colors: Record<string, string> = {
-      'Liberalismo': 'bg-gradient-to-b from-yellow-500 to-yellow-400', // Dorado
-      'Marxismo': 'bg-gradient-to-b from-red-700 to-red-600', // Rojo metálico
-      'Socialismo': 'bg-gradient-to-b from-red-400 to-pink-400', // Rojo rosado
-      'Capitalismo': 'bg-gradient-to-b from-green-600 to-green-500', // Verde dólar
-      'Conservadurismo': 'bg-gray-300', // Gris claro
-      'AnarcoCapitalismo': 'bg-gradient-to-b from-yellow-400 to-black', // Mitad amarillo, mitad negro
-      'Mercantilismo': 'bg-gradient-to-b from-yellow-500 to-gray-400', // Mitad dorado, mitad plateado
-      'Keynesianismo': 'bg-gradient-to-b from-blue-300 to-blue-400', // Celeste azulado
-    };
-    
-    return colors[ideology] || 'bg-gray-100';
+  // Get background color based on ideology using the ideologiaColores object
+  const getIdeologyBackground = (ideology: string): string => {
+    return ideologiaColores[ideology as keyof typeof ideologiaColores] || '';
   };
   
   return (
@@ -154,7 +144,10 @@ const VersusPage = () => {
             {ideologia1 && (
               <>
                 <p className="mb-2 font-medium text-white">Representante</p>
-                <div className={`p-4 rounded-lg ${getIdeologyBackgroundColor(ideologia1)} animate-fade-in`}>
+                <div 
+                  className="p-4 rounded-lg animate-fade-in"
+                  style={{ background: getIdeologyBackground(ideologia1) }}
+                >
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     {representantes[ideologia1 as keyof typeof representantes]?.map((representante) => (
                       <div 
@@ -196,7 +189,10 @@ const VersusPage = () => {
             {ideologia2 && (
               <>
                 <p className="mb-2 font-medium text-white">Representante</p>
-                <div className={`p-4 rounded-lg ${getIdeologyBackgroundColor(ideologia2)} animate-fade-in`}>
+                <div 
+                  className="p-4 rounded-lg animate-fade-in"
+                  style={{ background: getIdeologyBackground(ideologia2) }}
+                >
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     {representantes[ideologia2 as keyof typeof representantes]?.map((representante) => (
                       <div 
@@ -241,7 +237,10 @@ const VersusPage = () => {
         
         {ideologia1 && ideologia2 && representante1 && representante2 && tema && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className={`p-5 rounded-lg shadow-md transition-all duration-200 hover:shadow-lg hover:scale-[1.01] ${getIdeologyBackgroundColor(ideologia1)}`}>
+            <div 
+              className="p-5 rounded-lg shadow-md transition-all duration-200 hover:shadow-lg hover:scale-[1.01]"
+              style={{ background: getIdeologyBackground(ideologia1) }}
+            >
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full bg-white/10 mr-3 border-2 border-white/50 flex items-center justify-center">
                   <PersonIcon className="w-10 h-10 text-white/80" />
@@ -261,7 +260,10 @@ const VersusPage = () => {
               </div>
             </div>
             
-            <div className={`p-5 rounded-lg shadow-md transition-all duration-200 hover:shadow-lg hover:scale-[1.01] ${getIdeologyBackgroundColor(ideologia2)}`}>
+            <div 
+              className="p-5 rounded-lg shadow-md transition-all duration-200 hover:shadow-lg hover:scale-[1.01]"
+              style={{ background: getIdeologyBackground(ideologia2) }}
+            >
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 rounded-full bg-white/10 mr-3 border-2 border-white/50 flex items-center justify-center">
                   <PersonIcon className="w-10 h-10 text-white/80" />
