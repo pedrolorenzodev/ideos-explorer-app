@@ -4,6 +4,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BookOpen, Quote, Video, FileText, Headphones, ChevronLeft, ChevronRight } from 'lucide-react';
+import PersonIcon from '@mui/icons-material/Person';
+import VideoPlayer from '@/components/VideoPlayer';
 
 interface GrandesReferentesProps {
   ideologia: string;
@@ -33,6 +35,9 @@ interface Autor {
 
 const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
   const [autorSeleccionado, setAutorSeleccionado] = useState<string | null>(null);
+  const [videosVisibles, setVideosVisibles] = useState<{ [key: number]: boolean }>({});
+  const [videosCargados, setVideosCargados] = useState<{ [key: number]: boolean }>({});
+  const [tabActivo, setTabActivo] = useState<string>('libros');
   
   // Datos para las ideologías con imágenes reales
   const autores: { [key: string]: Autor[] } = {
@@ -269,9 +274,15 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
         recursos: [
           {
             tipo: 'video',
-            titulo: 'Adam Smith en 10 minutos',
-            url: '#',
-            descripcion: 'Una introducción concisa a las ideas principales de Adam Smith.'
+            titulo: 'La mano invisible explicada',
+            url: 'https://www.youtube.com/watch?v=80OW2F59iEQ',
+            descripcion: 'Análisis del concepto más famoso de Adam Smith.'
+          },
+          {
+            tipo: 'video',
+            titulo: 'El legado de Adam Smith',
+            url: 'https://www.youtube.com/watch?v=nvx4gona9ZY',
+            descripcion: 'Conversación sobre la influencia de Smith en la economía moderna.'
           }
         ]
       },
@@ -296,9 +307,21 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
         recursos: [
           {
             tipo: 'video',
-            titulo: 'Milton Friedman: Libertad de elegir',
-            url: '#',
-            descripcion: 'Serie documental sobre sus ideas económicas.'
+            titulo: 'Libertad para elegir - Capítulo 1: El poder del mercado',
+            url: 'https://youtu.be/sSA-dd_Biek?si=9Ok4pKnZZdWDvlZ2',
+            descripcion: 'Primer capítulo de la serie documental "Libertad para elegir" de Milton Friedman.'
+          },
+          {
+            tipo: 'video',
+            titulo: 'Libertad para elegir - Capítulo 2: El tirano en casa',
+            url: 'https://www.youtube.com/watch?v=gt0hQ2qCS4U&list=PLphYT2X99fYajlOnkRY2Fom-m-oz_OTaz&index=2',
+            descripcion: 'Segundo capítulo de la serie documental "Libertad para elegir" de Milton Friedman.'
+          },
+          {
+            tipo: 'video',
+            titulo: 'Milton Friedman sobre la división del trabajo',
+            url: 'https://www.youtube.com/watch?v=MLOx07hJRio',
+            descripcion: 'Milton Friedman explicando la importancia de la división del trabajo y su papel fundamental en la economía de mercado.'
           }
         ]
       },
@@ -324,7 +347,7 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
           {
             tipo: 'articulo',
             titulo: 'Hayek y la crítica al socialismo',
-            url: '#',
+            url: 'https://mises.org/es/friday-philosophy/el-argumento-politico-de-hayek-contra-el-socialismo',
             descripcion: 'Análisis de sus argumentos contra la planificación centralizada.'
           }
         ]
@@ -351,10 +374,10 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
         ],
         recursos: [
           {
-            tipo: 'video',
-            titulo: 'Edmund Burke y el conservadurismo',
-            url: '#',
-            descripcion: 'Introducción a su pensamiento político.'
+            tipo: 'articulo',
+            titulo: 'Burke: la base del conservadurismo',
+            url: 'https://www.nuevatribuna.es/articulo/cultura---ocio/burke-base-conservadurismo/20240714150545228881.html',
+            descripcion: 'Análisis del pensamiento conservador de Edmund Burke y su influencia en la política occidental.'
           }
         ]
       },
@@ -379,9 +402,9 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
         recursos: [
           {
             tipo: 'articulo',
-            titulo: 'Russell Kirk y el conservadurismo americano',
-            url: '#',
-            descripcion: 'Análisis de su contribución al pensamiento conservador.'
+            titulo: '¿Qué es el conservadurismo?',
+            url: 'https://mises.org/es/mises-wire/que-es-el-conservadurismo',
+            descripcion: 'Análisis histórico y filosófico del movimiento conservador y su evolución.'
           }
         ]
       },
@@ -436,35 +459,8 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
           {
             tipo: 'video',
             titulo: 'Murray Rothbard y el anarcocapitalismo',
-            url: '#',
+            url: 'https://www.youtube.com/watch?v=Hoj6SZ8GFtM',
             descripcion: 'Introducción a su pensamiento político y económico.'
-          }
-        ]
-      },
-      {
-        id: 'hans-hermann-hoppe',
-        nombre: 'Hans-Hermann Hoppe',
-        imagen: 'https://images.unsplash.com/photo-1541779408-c1f2192db618?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGhpbG9zb3BoZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60',
-        biografia: 'Teórico anarcocapitalista con enfoque en propiedad y orden. Discípulo de Rothbard y defensor de la sociedad sin Estado.',
-        libros: [
-          {
-            titulo: 'Democracia: El Dios que falló',
-            portada: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGJvb2slMjBjb3ZlcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60',
-            descripcion: 'Publicado en 2001, critica la democracia y defiende un orden social basado en la propiedad privada.'
-          }
-        ],
-        frases: [
-          {
-            texto: 'La democracia es el gobierno de los peores.',
-            contexto: 'Democracia: El Dios que falló (2001)'
-          }
-        ],
-        recursos: [
-          {
-            tipo: 'articulo',
-            titulo: 'Hoppe y la crítica a la democracia',
-            url: '#',
-            descripcion: 'Análisis de sus argumentos contra el sistema democrático.'
           }
         ]
       },
@@ -492,6 +488,68 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
             titulo: 'David Friedman: Anarcocapitalismo en la práctica',
             url: '#',
             descripcion: 'Conferencia sobre cómo funcionaría una sociedad anarcocapitalista.'
+          },
+          {
+            tipo: 'video',
+            titulo: 'Entrevista a David Friedman sobre Anarcocapitalismo',
+            url: 'https://www.youtube.com/watch?v=Q8ewn2X5ejc',
+            descripcion: 'Entrevista explicando los fundamentos y funcionamiento del anarcocapitalismo. (Ingles Subtitulada)'
+          }
+        ]
+      },
+      {
+        id: 'javier-milei',
+        nombre: 'Javier Gerardo Milei',
+        imagen: 'https://images.unsplash.com/photo-1541779408-c1f2192db618?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGhpbG9zb3BoZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60',
+        biografia: 'Economista y político argentino, presidente de Argentina desde 2023. Conocido por su estilo confrontativo y su defensa del anarcocapitalismo, propone una drástica reducción del Estado y la adopción de políticas económicas de libre mercado. Ha ganado notoriedad por sus discursos apasionados y su crítica al establishment político.',
+        libros: [
+          {
+            titulo: 'El fin de la inflación',
+            portada: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJvb2slMjBjb3ZlcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60',
+            descripcion: 'Publicado en 2023, analiza las causas y soluciones de la inflación.'
+          },
+          {
+            titulo: 'Capitalismo, socialismo y la trampa neoclásica',
+            portada: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Ym9vayUyMGNvdmVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60',
+            descripcion: 'Publicado en 2024, critica las bases teóricas del socialismo y el neoclasicismo.'
+          }
+        ],
+        frases: [
+          {
+            texto: 'Para mí, los impuestos son un robo.',
+            contexto: 'Discurso político'
+          }
+        ],
+        recursos: [
+          {
+            tipo: 'video',
+            titulo: 'Conferencia: La estruendosa superioridad del capitalismo',
+            url: 'https://www.youtube.com/watch?v=jEEQ4bevw1Q',
+            descripcion: 'Análisis de las ventajas del sistema capitalista.'
+          },
+          {
+            tipo: 'video',
+            titulo: 'Conferencia: Crecimiento, monopolios y los valores del capitalismo',
+            url: 'https://www.youtube.com/watch?v=JMbWuV6enTk',
+            descripcion: 'Explicación sobre el funcionamiento del mercado y los monopolios.'
+          },
+          {
+            tipo: 'video',
+            titulo: 'Explicación: Milei explica qué es el "mercado"',
+            url: 'https://www.youtube.com/watch?v=cCI9z9TbnOI',
+            descripcion: 'Definición y explicación del concepto de mercado.'
+          },
+          {
+            tipo: 'video',
+            titulo: 'Análisis: Por qué la inflación es un fenómeno monetario',
+            url: 'https://www.youtube.com/watch?v=sItbZoHw9Uk',
+            descripcion: 'Análisis de las causas monetarias de la inflación.'
+          },
+          {
+            tipo: 'video',
+            titulo: 'Discurso: Impuestos, robo y la verdadera grieta',
+            url: 'https://www.youtube.com/watch?v=MPyl-3C4VQA',
+            descripcion: 'Análisis sobre la naturaleza de los impuestos y la división social.'
           }
         ]
       }
@@ -669,54 +727,46 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
     // Se mantiene el Liberalismo existente
     'Liberalismo': [
       {
-        id: 'adam-smith',
-        nombre: 'Adam Smith',
+        id: 'juan-ramon-rallo',
+        nombre: 'Juan Ramón Rallo',
         imagen: 'https://images.unsplash.com/photo-1576500164142-0d80697ca67f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YWRhbSUyMHNtaXRofGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60',
-        biografia: 'Filósofo y economista escocés del siglo XVIII. Considerado el padre de la economía moderna y del liberalismo económico. Su obra más importante estableció las bases del capitalismo de libre mercado.',
+        biografia: 'Economista español, doctor en Economía y licenciado en Derecho. Profesor en diversas universidades, es conocido por su defensa del liberalismo clásico y su crítica al intervencionismo estatal. Ha participado activamente en debates públicos y es autor de numerosos libros y artículos sobre economía y política.',
         libros: [
           {
-            titulo: 'La Riqueza de las Naciones',
+            titulo: 'Liberalismo: los diez principios básicos del orden político liberal',
             portada: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Ym9vayUyMGNvdmVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60',
-            descripcion: 'Publicada en 1776, esta obra analiza la economía de mercado y establece las bases del liberalismo económico y el capitalismo moderno.'
+            descripcion: 'Publicado en 2019, expone los fundamentos del liberalismo político.'
           },
           {
-            titulo: 'Teoría de los Sentimientos Morales',
+            titulo: 'Anti-Marx: Crítica a la economía política marxista',
             portada: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Ym9vayUyMGNvdmVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60',
-            descripcion: 'Publicada en 1759, explora cómo la moral y el auto-interés pueden coexistir en la sociedad.'
+            descripcion: 'Publicado en 2022, analiza y critica las bases teóricas del marxismo.'
           }
         ],
         frases: [
           {
-            texto: 'No es de la benevolencia del carnicero, del cervecero o del panadero de donde esperamos nuestra comida, sino de sus miras al interés propio.',
-            contexto: 'La Riqueza de las Naciones (1776)'
-          },
-          {
-            texto: 'El gran secreto para conseguir la felicidad no consiste en disfrutar, ni en sufrir, sino en hacer.',
-            contexto: 'Teoría de los Sentimientos Morales (1759)'
-          },
-          {
-            texto: 'Los hombres civilizados han alcanzado el convencimiento de que sus intereses están relacionados con la prosperidad de la sociedad y con el mantenimiento del orden.',
-            contexto: 'La Riqueza de las Naciones (1776)'
+            texto: 'No existe ninguna entidad social por cuyo bien merezca sacrificarse. Sólo existen personas individuales, con sus propias vidas individuales.',
+            contexto: 'Goodreads'
           }
         ],
         recursos: [
           {
             tipo: 'video',
-            titulo: 'Adam Smith en 10 minutos',
-            url: '#',
-            descripcion: 'Una introducción concisa a las ideas principales de Adam Smith.'
+            titulo: 'Debate: ¿El liberalismo solo beneficia a los ricos?',
+            url: 'https://www.youtube.com/watch?v=C5nhyVxtsSw',
+            descripcion: 'Debate sobre los beneficios del liberalismo para toda la sociedad.'
           },
           {
-            tipo: 'articulo',
-            titulo: 'La mano invisible explicada',
-            url: '#',
-            descripcion: 'Análisis del concepto más famoso de Adam Smith.'
+            tipo: 'video',
+            titulo: 'Debate: Liberalismo vs Comunismo',
+            url: 'https://www.youtube.com/watch?v=7qDNJUfdd50',
+            descripcion: 'Análisis comparativo entre liberalismo y comunismo.'
           },
           {
-            tipo: 'podcast',
-            titulo: 'El legado de Adam Smith',
-            url: '#',
-            descripcion: 'Conversación sobre la influencia de Smith en la economía moderna.'
+            tipo: 'video',
+            titulo: 'Conferencia: ¿Qué es el liberalismo?',
+            url: 'https://www.youtube.com/watch?v=dYLRozVYu5s',
+            descripcion: 'Explicación detallada de los principios del liberalismo.'
           }
         ]
       },
@@ -852,9 +902,11 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
                     : 'bg-white/5 hover:bg-white/10'}`}
               >
                 <div className="flex items-center gap-3">
-                  <Avatar className="w-12 h-12 border border-white/20">
+                  <Avatar className="w-12 h-12 border border-white/20 shadow-[0_2px_6px_-1px_var(--tw-shadow-color),0_2px_4px_-2px_var(--tw-shadow-color)] shadow-black/30">
                     <AvatarImage src={autor.imagen} alt={autor.nombre} />
-                    <AvatarFallback>{autor.nombre.charAt(0)}</AvatarFallback>
+                    <AvatarFallback>
+                      <PersonIcon style={{ fontSize: '1.5rem', color: 'white' }} />
+                    </AvatarFallback>
                   </Avatar>
                   <div>
                     <h3 className="font-medium text-white">{autor.nombre}</h3>
@@ -871,9 +923,11 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
           <Card>
             <CardHeader>
               <div className="flex items-center gap-4">
-                <Avatar className="w-16 h-16 border-2 border-white/20">
+                <Avatar className="w-16 h-16 border-2 border-white/20 shadow-[0_2px_6px_-1px_var(--tw-shadow-color),0_2px_4px_-2px_var(--tw-shadow-color)] shadow-black/40">
                   <AvatarImage src={autorActual.imagen} alt={autorActual.nombre} />
-                  <AvatarFallback>{autorActual.nombre.charAt(0)}</AvatarFallback>
+                  <AvatarFallback>
+                    <PersonIcon style={{ fontSize: '2rem', color: 'white' }} />
+                  </AvatarFallback>
                 </Avatar>
                 <div>
                   <CardTitle className="text-white">
@@ -885,7 +939,7 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
             </CardHeader>
           </Card>
           
-          <Tabs defaultValue="libros" className="w-full">
+          <Tabs defaultValue="libros" className="w-full" onValueChange={setTabActivo}>
             <TabsList className="grid grid-cols-3 mb-6 bg-white/5 border border-white/20">
               <TabsTrigger value="libros" className="data-[state=active]:bg-white/10 data-[state=active]:text-white text-white/60 hover:text-white/80 transition-colors">
                 <BookOpen className="h-4 w-4 mr-2" />
@@ -928,10 +982,10 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
                 <CarouselContent>
                   {autorActual.frases.map((frase, index) => (
                     <CarouselItem key={index}>
-                      <Card className="h-64 flex items-center bg-white/5 border border-white/20 hover:bg-white/10 transition-all duration-200">
-                        <CardContent className="p-6 text-center flex flex-col justify-center h-full">
-                          <Quote className="h-8 w-8 mx-auto mb-4 text-white" />
-                          <p className="text-lg font-medium italic mb-4 text-white">"{frase.texto}"</p>
+                      <Card className="h-64 flex items-center justify-center bg-white/5 border border-white/20 hover:bg-white/10 transition-all duration-200">
+                        <CardContent className="p-6 text-center flex flex-col items-center justify-center h-full w-full">
+                          <Quote className="h-8 w-8 mb-4 text-white" />
+                          <p className="text-lg font-medium italic mb-4 text-white max-w-2xl">"{frase.texto}"</p>
                           {frase.contexto && (
                             <p className="text-sm text-white/60">{frase.contexto}</p>
                           )}
@@ -951,17 +1005,72 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
               <div className="space-y-4">
                 {autorActual.recursos.map((recurso, index) => (
                   <Card key={index} className="bg-white/5 border border-white/20 hover:bg-white/10 transition-all duration-200">
-                    <div className="p-4 flex items-start">
-                      <div className="mr-4 mt-1">
-                        {recurso.tipo === 'video' && <Video className="h-6 w-6 text-white" />}
-                        {recurso.tipo === 'articulo' && <FileText className="h-6 w-6 text-white" />}
-                        {recurso.tipo === 'podcast' && <Headphones className="h-6 w-6 text-white" />}
+                    <div className="p-4">
+                      <div className="flex items-start mb-4">
+                        <div className="mr-4 mt-1">
+                          {recurso.tipo === 'video' && <Video className="h-6 w-6 text-white" />}
+                          {recurso.tipo === 'articulo' && <FileText className="h-6 w-6 text-white" />}
+                          {recurso.tipo === 'podcast' && <Headphones className="h-6 w-6 text-white" />}
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-white">{recurso.titulo}</h4>
+                          {recurso.descripcion && (
+                            <p className="text-sm text-white/80 mt-1">{recurso.descripcion}</p>
+                          )}
+                        </div>
                       </div>
-                      <div>
-                        <h4 className="font-medium text-white">{recurso.titulo}</h4>
-                        {recurso.descripcion && (
-                          <p className="text-sm text-white/80 mt-1">{recurso.descripcion}</p>
-                        )}
+                      {recurso.tipo === 'video' ? (
+                        <div className="space-y-4">
+                          <div className="bg-white/5 p-4 rounded-lg border border-white/10">
+                            <p className="text-white/90 text-sm leading-relaxed">
+                              {recurso.titulo === "Libertad para elegir - Capítulo 1: El poder del mercado" ? (
+                                <>
+                                  "Libertad para elegir" es una serie documental histórica presentada por Milton Friedman, 
+                                  donde explora los principios fundamentales del libre mercado y la libertad económica. 
+                                  En este primer capítulo, Friedman analiza cómo los mercados libres promueven la prosperidad 
+                                  y mejoran la vida de las personas a través del intercambio voluntario y la cooperación social.
+                                </>
+                              ) : recurso.titulo === "Libertad para elegir - Capítulo 2: El tirano en casa" ? (
+                                <>
+                                  En este segundo capítulo, Friedman examina cómo la intervención gubernamental en la economía 
+                                  afecta la libertad individual y el bienestar de las familias. A través de ejemplos concretos, 
+                                  demuestra cómo las regulaciones excesivas pueden limitar las opciones de los consumidores y 
+                                  reducir su capacidad para tomar decisiones que mejor se adapten a sus necesidades.
+                                </>
+                              ) : recurso.descripcion}
+                            </p>
+                            <button 
+                              onClick={() => {
+                                setVideosVisibles(prev => ({
+                                  ...prev,
+                                  [index]: !prev[index]
+                                }));
+                                if (!videosCargados[index]) {
+                                  setVideosCargados(prev => ({
+                                    ...prev,
+                                    [index]: true
+                                  }));
+                                }
+                              }}
+                              className="mt-4 text-sm text-white/80 hover:text-white transition-colors flex items-center gap-2"
+                            >
+                              <Video className="h-4 w-4" />
+                              {videosVisibles[index] ? 'Ocultar video' : 'Mostrar video'}
+                            </button>
+                          </div>
+                          <div 
+                            className={`transform transition-all duration-300 ease-in-out overflow-hidden ${
+                              videosVisibles[index] 
+                                ? 'max-h-[1000px] opacity-100' 
+                                : 'max-h-0 opacity-0'
+                            }`}
+                          >
+                            <div className="py-4">
+                              {videosCargados[index] && <VideoPlayer url={recurso.url} title={recurso.titulo} />}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
                         <a 
                           href={recurso.url} 
                           className="text-sm text-white/80 mt-2 inline-block hover:text-white transition-all duration-200"
@@ -969,11 +1078,10 @@ const GrandesReferentes = ({ ideologia }: GrandesReferentesProps) => {
                           rel="noopener noreferrer"
                         >
                           Ver {
-                            recurso.tipo === 'video' ? 'video' : 
                             recurso.tipo === 'articulo' ? 'artículo' : 'podcast'
                           }
                         </a>
-                      </div>
+                      )}
                     </div>
                   </Card>
                 ))}

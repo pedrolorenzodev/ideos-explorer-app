@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 
 interface IdeologiaCardProps {
@@ -13,11 +12,9 @@ const IdeologiaCard = ({
   path,
   background
 }: IdeologiaCardProps) => {
-  // Use consistent styling for all texts based on ideology
-  // For dark backgrounds, use white text; for light backgrounds, use black text
+  // Use black text for all ideologies
   const getTextColor = (ideologia: string) => {
-    const darkBackgrounds = ["marxismo", "socialismo", "capitalismo", "conservadurismo", "anarcocapitalismo", "mercantilismo", "keynesianismo"];
-    return darkBackgrounds.includes(ideologia.toLowerCase()) ? "text-white" : "text-black";
+    return "text-black";
   };
 
   const textColor = getTextColor(nombre);
@@ -30,7 +27,7 @@ const IdeologiaCard = ({
       >
         {/* Card content */}
         <div className="relative z-10 flex flex-col items-center justify-center">
-          <h3 className={`text-2xl font-medium text-center ${textColor} group-hover:scale-105 transition-transform duration-200 text-shadow`}>
+          <h3 className={`text-[22.5px] font-light text-center text-[#B6B6B6] group-hover:scale-105 transition-transform duration-200`} style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px' }}>
             {nombre}
           </h3>
         </div>

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TestInteractivo from "./TestInteractivo";
@@ -7,6 +6,8 @@ import { ArrowLeft } from "lucide-react";
 import criticas from "../data/criticas";
 import { ideologiaColores } from "../data/colores";
 import { ideologiaContenido } from "../data/contenido";
+import criticasData from "../data/criticas";
+const { criticismsSubTitle } = criticasData;
 
 interface ContenidoTabProps {
   ideologia: string;
@@ -22,8 +23,28 @@ const ContenidoTab = ({ ideologia }: ContenidoTabProps) => {
   const [criticaSeleccionada, setCriticaSeleccionada] = useState<string | null>(null);
   
   // Get background gradient for the selected ideology
-  const getBackgroundGradient = (ideologiaNombre: string) => {
-    return ideologiaColores[ideologiaNombre] || "";
+  const getBackgroundGradient = (ideologia: string) => {
+    const color = ideologiaColores[ideologia as keyof typeof ideologiaColores] || '';
+    return color.replace('linear-gradient(180deg', 'linear-gradient(90deg');
+  };
+  
+  // Add a new function for specific opacity values
+  const getBackgroundWithOpacity = (ideologiaNombre: string, opacity: number) => {
+    if (ideologiaNombre === 'Marxismo') {
+      return `linear-gradient(to bottom right, rgba(118, 7, 7, ${opacity}), rgba(192, 78, 78, ${opacity}))`;
+    }
+    if (ideologiaNombre === 'Liberalismo') {
+      return `linear-gradient(to bottom right, rgba(109, 76, 20, ${opacity}), rgba(205, 173, 88, ${opacity}))`;
+    }
+    
+    const color = ideologiaColores[ideologiaNombre] || "";
+    if (color.startsWith('#')) {
+      const r = parseInt(color.slice(1, 3), 16);
+      const g = parseInt(color.slice(3, 5), 16);
+      const b = parseInt(color.slice(5, 7), 16);
+      return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    }
+    return color;
   };
   
   // Determine text color based on background (for contrast)
@@ -88,14 +109,14 @@ const ContenidoTab = ({ ideologia }: ContenidoTabProps) => {
     ) {
       return criticas[ideologia][desde];
     }
-    return `Crítica al ${ideologia} desde la perspectiva del ${desde} no disponible.`;
+    return [];
   };
   
   const renderCriticasGrid = () => {
     return (
       <div className="mt-4">
-        <h1 className="text-2xl font-bold text-center text-white mb-3">{ideologia}</h1>
-        <h3 className="text-lg font-medium text-center text-white/80 mb-6">¿Desde qué perspectiva quieres analizarla?</h3>
+        <h1 className="text-2xl font-light text-center text-[#B6B6B6] mb-3" style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px' }}>{ideologia}</h1>
+        <h3 className="text-lg font-light text-center text-[#B6B6B6]/80 mb-6" style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px' }}>¿Desde qué perspectiva quieres analizarla?</h3>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {ideologiasCritica.map((item) => (
@@ -105,8 +126,8 @@ const ContenidoTab = ({ ideologia }: ContenidoTabProps) => {
               style={{ background: item.background }}
               onClick={() => setCriticaSeleccionada(item.nombre)}
             >
-              <h3 className={`text-lg font-semibold mb-2 ${getTextColor(item.nombre)}`}>{item.nombre}</h3>
-              <p className={`text-sm ${getTextColor(item.nombre)}/90`}>{item.descripcion}</p>
+              <h3 className={`text-lg font-light mb-2 text-[#B6B6B6]`} style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px' }}>{item.nombre}</h3>
+              <p className={`text-sm text-[#B6B6B6]/90`} style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px' }}>{item.descripcion}</p>
             </div>
           ))}
         </div>
@@ -121,30 +142,47 @@ const ContenidoTab = ({ ideologia }: ContenidoTabProps) => {
     
     if (!ideologiaSeleccionada) return null;
     
-    // Format the criticism text - split by periods to create paragraphs
-    const criticaTexto = getCriticaContent(criticaSeleccionada);
-    const parrafos = criticaTexto.split('. ').filter(Boolean);
+    const criticasArray = getCriticaContent(criticaSeleccionada);
     
     return (
-      <div className="mt-4">
+      <div className="mt-8">
         <button 
           onClick={() => setCriticaSeleccionada(null)}
-          className="flex items-center text-blue-400 hover:text-blue-500 mb-4"
+          className="flex items-center text-blue-400 hover:text-blue-500 mb-6"
         >
           <ArrowLeft size={18} className="mr-1" />
           <span>Volver a todas las críticas</span>
         </button>
         
-        <div style={{ background: ideologiaSeleccionada.background }} className="p-6 rounded-lg shadow-md">
-          <h2 className={`text-xl font-bold mb-3 ${getTextColor(ideologiaSeleccionada.nombre)}`}>
-            Crítica al {ideologia} desde el {criticaSeleccionada}
-          </h2>
-          <div className={`${getTextColor(ideologiaSeleccionada.nombre)}/90 space-y-4`}>
-            {parrafos.map((parrafo, index) => (
-              <p key={index} className="text-justify">
-                {parrafo}{index < parrafos.length - 1 ? '.' : ''}
-              </p>
-            ))}
+        <div className="p-3 rounded-lg shadow-md">
+          <div 
+            className="p-4 rounded-lg mb-4"
+            style={{ 
+              background: 'rgb(255 255 255 / 0.05)',
+              borderColor: 'rgb(255 255 255 / 0.2)',
+              borderWidth: '1px',
+            }}
+          >
+            <h3 className={`text-lg text-[#B6B6B6]`} style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px', fontWeight: 400, color: '#fff' }}>Crítica al {ideologia} desde el {criticaSeleccionada}</h3>
+          </div>
+
+          <div className="relative rounded-lg overflow-hidden p-3" style={{ 
+            background: 'rgb(255 255 255 / 0.05)',
+            borderColor: 'rgb(255 255 255 / 0.2)',
+            borderWidth: '1px',
+          }}>
+            <div className="relative z-10 space-y-6">
+              {criticasArray.map((critica, index) => (
+                <div key={index} className="space-y-2" style={{ marginTop: index > 0 ? '32px' : '0' }}>
+                  <h4 className="font-semibold text-white" style={{ fontWeight: 600, color: '#fff', textShadow: 'rgba(0,0,0,0.5) 0px 1px 4px' }}>
+                    {critica.subtitulo}
+                  </h4>
+                  <p className="text-justify font-light text-[#B6B6B6]" style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 4px', marginTop: '5px' }}>
+                    {critica.descripcion}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -156,20 +194,33 @@ const ContenidoTab = ({ ideologia }: ContenidoTabProps) => {
     
     return (
       <div className="p-4 rounded-lg border border-white/20">
+
         <div 
           className="p-4 rounded-lg mb-4"
-          style={{ background: getBackgroundGradient(ideologia) }}
+          style={{ 
+            background: 'rgb(255 255 255 / 0.05)',
+            borderColor: 'rgb(255 255 255 / 0.2)',
+            borderWidth: '1px',
+          }}
         >
-          <h3 className={`text-lg font-semibold mb-2 ${getTextColor(ideologia)}`}>Conceptos Clave</h3>
+          <h3 className={`text-lg text-[#B6B6B6]`} style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px', fontWeight: 400, color: '#fff' }}>Conceptos Clave</h3>
         </div>
         
-        <ol className="list-decimal pl-6 space-y-4">
-          {conceptos.map((concepto, index) => (
-            <li key={index} className="text-white/90">
-              <span className="font-bold">{concepto.titulo}:</span> {concepto.descripcion}
-            </li>
-          ))}
-        </ol>
+        <div className="relative rounded-lg overflow-hidden p-3" style={{ 
+            background: 'rgb(255 255 255 / 0.05)',
+            borderColor: 'rgb(255 255 255 / 0.2)',
+            borderWidth: '1px',
+          }}>
+          <ol className="relative z-10 list-decimal pl-6 space-y-4">
+            {conceptos.map((concepto, index) => (
+              <li key={index} className="font-light text-[#B6B6B6]" style={{ 
+                textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 4px'
+              }}>
+                <span className="font-light">{concepto.titulo}:</span> {concepto.descripcion}
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     );
   };
@@ -181,17 +232,29 @@ const ContenidoTab = ({ ideologia }: ContenidoTabProps) => {
       <div className="p-4 rounded-lg border border-white/20">
         <div 
           className="p-4 rounded-lg mb-4"
-          style={{ background: getBackgroundGradient(ideologia) }}
+          style={{ 
+            background: 'rgb(255 255 255 / 0.05)',
+            borderColor: 'rgb(255 255 255 / 0.2)',
+            borderWidth: '1px',
+          }}
         >
-          <h3 className={`text-lg font-semibold mb-2 ${getTextColor(ideologia)}`}>Ideas Principales</h3>
+          <h3 className={`text-lg text-[#B6B6B6]`} style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px', fontWeight: 400, color: '#fff' }}>Ideas Principales</h3>
         </div>
         
-        <div className="space-y-4">
-          {ideas.map((idea, index) => (
-            <p key={index} className="text-white/90 text-justify">
-              {idea}
-            </p>
-          ))}
+        <div className="relative rounded-lg overflow-hidden p-3" style={{ 
+            background: 'rgb(255 255 255 / 0.05)',
+            borderColor: 'rgb(255 255 255 / 0.2)',
+            borderWidth: '1px',
+          }}>
+          <div className="relative z-10 space-y-4">
+            {ideas.map((idea, index) => (
+              <p key={index} className="text-justify font-light text-[#B6B6B6]" style={{ 
+                textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 4px'
+              }}>
+                {idea}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     );

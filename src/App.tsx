@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,7 +10,6 @@ import IdeologiaPage from "./pages/IdeologiaPage";
 import ChatPage from "./pages/ChatPage";
 import VersusPage from "./pages/VersusPage";
 import TestsPage from "./pages/TestsPage";
-import PerfilPage from "./pages/PerfilPage";
 import NotFound from "./pages/NotFound";
 
 const App = () => {
@@ -31,7 +29,6 @@ const App = () => {
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/versus" element={<VersusPage />} />
             <Route path="/tests" element={<TestsPage />} />
-            <Route path="/perfil" element={<PerfilPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

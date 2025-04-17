@@ -1,4 +1,4 @@
-import { Home, Swords, MessageSquare, TestTube, UserCircle } from 'lucide-react';
+import { Home, Swords, MessageSquare, TestTube } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 const BottomNavigation = () => {
@@ -9,11 +9,10 @@ const BottomNavigation = () => {
     { icon: Swords, label: 'Batallas', path: '/versus' },
     { icon: MessageSquare, label: 'Chat', path: '/chat' },
     { icon: TestTube, label: 'Tests', path: '/tests' },
-    { icon: UserCircle, label: 'Perfil', path: '/perfil' },
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-[#1a1a1a]/80 backdrop-blur-sm border-t border-white/20 z-[100] transition-all duration-300 will-change-transform">
+    <nav className="fixed bottom-0 left-0 right-0 bg-[#1a1a1a]/80 backdrop-blur-sm border-t-[0.5px] border-white/[0.15] z-[100] transition-all duration-300 will-change-transform">
       <div className="flex justify-around items-center h-16">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;

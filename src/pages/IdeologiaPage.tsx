@@ -1,4 +1,3 @@
-
 import { useParams, Link } from 'react-router-dom';
 import BottomNavigation from '@/components/BottomNavigation';
 import FloatingButtons from '@/components/FloatingButtons';
@@ -41,12 +40,12 @@ const IdeologiaPage = () => {
             className="p-4 rounded-lg"
             style={{ background: getIdeologiaColor(ideologia || '') }}
           >
-            <h1 className={`text-2xl font-bold mb-1 ${getTextColor(ideologia || '')}`}>
+            <h1 className={`text-2xl font-light mb-1 text-[#B6B6B6]`} style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px' }}>
               {ideologiaCapitalizada}
             </h1>
             <div className="flex items-center">
-              <span className={`font-medium ${getTextColor(ideologia || '')}`}>Perspectiva:</span>
-              <span className={`ml-2 bg-white/10 px-3 py-1 rounded-full text-sm ${getTextColor(ideologia || '')}/80`}>Neutra / Histórica</span>
+              <span className={`font-light text-[#B6B6B6]`} style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px' }}>Perspectiva:</span>
+              <span className={`ml-2 bg-white/10 px-3 py-1 rounded-full text-sm text-[#B6B6B6]/80`} style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px' }}>Neutra / Histórica</span>
             </div>
           </div>
         </div>

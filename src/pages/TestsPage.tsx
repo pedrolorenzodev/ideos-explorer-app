@@ -62,7 +62,7 @@ const TestsPage = () => {
   };
   
   return (
-    <div className="pb-20 animate-fade-in">
+    <div className="pb-20 animate-fade-in min-h-screen">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold mb-1 text-white">Tests Interactivos</h1>

@@ -50,7 +50,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="pb-20 animate-fade-in">
+    <div className="pb-20 animate-fade-in min-h-screen">
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold mb-4">Ideologías</h1>
