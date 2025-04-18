@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TestInteractivo from "./TestInteractivo";
 import GrandesReferentes from "./GrandesReferentes";
@@ -8,6 +8,7 @@ import { ideologiaColores } from "../data/colores";
 import { ideologiaContenido } from "../data/contenido";
 import criticasData from "../data/criticas";
 const { criticismsSubTitle } = criticasData;
+import { Loader } from "lucide-react";
 
 interface ContenidoTabProps {
   ideologia: string;
@@ -21,6 +22,9 @@ interface IdeologiaCritica {
 
 const ContenidoTab = ({ ideologia }: ContenidoTabProps) => {
   const [criticaSeleccionada, setCriticaSeleccionada] = useState<string | null>(null);
+  const [videosVisibles, setVideosVisibles] = useState<{ [key: number]: boolean }>({});
+  const [videosCargados, setVideosCargados] = useState<{ [key: number]: boolean }>({});
+  const [videosLoading, setVideosLoading] = useState<{ [key: number]: boolean }>({});
   
   // Get background gradient for the selected ideology
   const getBackgroundGradient = (ideologia: string) => {
