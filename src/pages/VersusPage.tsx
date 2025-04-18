@@ -1,4 +1,3 @@
-import BottomNavigation from '@/components/BottomNavigation';
 import FloatingButtons from '@/components/FloatingButtons';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Swords } from 'lucide-react';
@@ -280,7 +279,6 @@ const VersusPage = () => {
       </div>
 
       <FloatingButtons />
-      <BottomNavigation />
     </div>
   );
 };

@@ -1,6 +1,5 @@
 
 import { useParams } from 'react-router-dom';
-import BottomNavigation from '@/components/BottomNavigation';
 import FloatingButtons from '@/components/FloatingButtons';
 import PerspectivaCard from '@/components/PerspectivaCard';
 import { ArrowLeft } from 'lucide-react';
@@ -76,7 +75,6 @@ const PerspectivaPage = () => {
       </div>
       
       <FloatingButtons ideologia={ideologia} />
-      <BottomNavigation />
     </div>
   );
 };

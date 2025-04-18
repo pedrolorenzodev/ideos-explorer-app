@@ -1,6 +1,5 @@
 
 import IdeologiaCard from '@/components/IdeologiaCard';
-import BottomNavigation from '@/components/BottomNavigation';
 import FloatingButtons from '@/components/FloatingButtons';
 import { ArrowRight } from 'lucide-react';
 import { ideologiaColores } from '@/data/colores';
@@ -97,7 +96,6 @@ const Index = () => {
       </div>
       
       <FloatingButtons />
-      <BottomNavigation />
     </div>
   );
 };

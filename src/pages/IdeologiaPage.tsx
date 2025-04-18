@@ -1,5 +1,4 @@
 import { useParams, Link } from 'react-router-dom';
-import BottomNavigation from '@/components/BottomNavigation';
 import FloatingButtons from '@/components/FloatingButtons';
 import ContenidoTab from '@/components/ContenidoTab';
 import { ArrowLeft } from 'lucide-react';
@@ -54,7 +53,6 @@ const IdeologiaPage = () => {
       </div>
       
       <FloatingButtons ideologia={ideologia} />
-      <BottomNavigation />
     </div>
   );
 };

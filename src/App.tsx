@@ -11,6 +11,7 @@ import ChatPage from "./pages/ChatPage";
 import VersusPage from "./pages/VersusPage";
 import TestsPage from "./pages/TestsPage";
 import NotFound from "./pages/NotFound";
+import BottomNavigation from '@/components/BottomNavigation';
 
 const App = () => {
   // Create a client inside the component
@@ -31,6 +32,7 @@ const App = () => {
             <Route path="/tests" element={<TestsPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <BottomNavigation />
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
