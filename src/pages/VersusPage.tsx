@@ -180,52 +180,15 @@ const VersusPage = () => {
         {/* Chat container */}
         <div className="absolute bottom-16 inset-x-0 bg-[#1A1A1A] min-h-[550px] rounded-t-[32px] shadow-[0px_-4px_24px_rgba(0,0,0,0.25)] flex flex-col">
           <div className="flex-1 p-6 flex items-center justify-center">
-            {ideologia1 && ideologia2 && representante1 && representante2 && (
-              <div className="mb-6 w-full">
-                <Select onValueChange={setTema} value={tema}>
-                  <SelectTrigger className="w-full transition-all border-[#d4d4d4]/26 bg-gradient-to-r from-[#D9D9D9]/7 to-[#737373]/7 backdrop-blur-sm duration-250 hover:border-[#d4d4d4]/40 text-[#d4d4d4]">
-                    <SelectValue placeholder="Selecciona un tema" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-[#1a1a1a] border-white/20">
-                    {temas.map((tema) => (
-                      <SelectItem key={tema} value={tema} className="cursor-pointer text-white hover:bg-white/10">
-                        {tema}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-            
-            {ideologia1 && ideologia2 && representante1 && representante2 && tema ? (
-              <div className="flex-1 flex flex-col justify-between w-full">
-                <div className="space-y-4">
-                  <div className="p-4 rounded-lg" style={{ background: getIdeologyBackground(ideologia1) }}>
-                    <p className="text-[#B6B6B6]/90" style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px' }}>
-                      Postura de {representante1} sobre {tema.toLowerCase()} según los principios del {ideologia1}.
-                    </p>
-                  </div>
-                  
-                  <div className="p-4 rounded-lg" style={{ background: getIdeologyBackground(ideologia2) }}>
-                    <p className="text-[#B6B6B6]/90" style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px' }}>
-                      Postura de {representante2} sobre {tema.toLowerCase()} según los principios del {ideologia2}.
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="mt-4 text-xs text-[#B6B6B6]/70 text-center" style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px' }}>
-                  * Este contenido representa el pensamiento de los representantes sobre este tema.
-                </div>
-              </div>
-            ) : (
+            {!ideologia1 || !ideologia2 || !representante1 || !representante2 ? (
               <div className="text-[#B6B6B6]/60 text-center" style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px' }}>
                 {!ideologia1 || !ideologia2 
                   ? "Selecciona dos ideologías para comenzar" 
                   : !representante1 || !representante2 
                     ? "Selecciona representantes para cada ideología" 
-                    : "Selecciona un tema para comparar las posturas"}
+                    : null}
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </div>
