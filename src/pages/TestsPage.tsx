@@ -1,4 +1,3 @@
-import BottomNavigation from '@/components/BottomNavigation';
 import FloatingButtons from '@/components/FloatingButtons';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -182,7 +181,6 @@ const TestsPage = () => {
       </div>
       
       <FloatingButtons />
-      <BottomNavigation />
     </div>
   );
 };

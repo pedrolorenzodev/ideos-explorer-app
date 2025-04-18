@@ -1,20 +1,51 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import BottomNavigation from '@/components/BottomNavigation';
 import FloatingButtons from '@/components/FloatingButtons';
 import PersonIcon from '@mui/icons-material/Person';
 import { ideologiaColores } from '@/data/colores';
+import { useChat } from 'ai/react';
+import { makeApiPath } from '@/lib/ai-adapter';
 
 const ChatPage = () => {
   const [searchParams] = useSearchParams();
   const ideologia = searchParams.get('ideologia');
   const [personajeSeleccionado, setPersonajeSeleccionado] = useState<any>(null);
-  const [mensaje, setMensaje] = useState('');
-  const [mensajes, setMensajes] = useState<Array<{texto: string, esUsuario: boolean}>>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  
+  // Para mensajes iniciales al seleccionar un personaje
+  const [mensajesBienvenida, setMensajesBienvenida] = useState<Array<{texto: string, esUsuario: boolean}>>([]);
+  
+  // useChat de AI SDK
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    isLoading,
+    setMessages,
+  } = useChat({
+    api: makeApiPath('/api/chat'),
+    initialMessages: [],
+    body: personajeSeleccionado ? {
+      personaje: personajeSeleccionado
+    } : undefined,
+    onError: (error) => {
+      console.error("Error en el chat:", error);
+    },
+    onFinish: () => {
+      // Acciones al finalizar
+      console.log("Chat finalizado");
+    }
+  });
+
+  // Reiniciar mensajes cuando se cambia de personaje
+  useEffect(() => {
+    if (personajeSeleccionado) {
+      setMessages([]);
+    }
+  }, [personajeSeleccionado, setMessages]);
 
   const personajes = [
     {
@@ -74,30 +105,42 @@ const ChatPage = () => {
 
   const handleSelectPersonaje = (personaje: any) => {
     setPersonajeSeleccionado(personaje);
-    setMensajes([{
+    setMensajesBienvenida([{
       texto: personaje.mensajeBienvenida,
       esUsuario: false
     }]);
   };
 
-  const handleEnviarMensaje = async () => {
-    if (!mensaje.trim()) return;
+  // Enviar mensaje usando AI SDK
+  const handleEnviarMensaje = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!input.trim()) return;
     
-    const mensajeUsuario = mensaje;
-    setMensaje('');
-    setMensajes(prev => [...prev, { texto: mensajeUsuario, esUsuario: true }]);
+    handleSubmit(e);
+  };
+
+  // Fallback para demostración
+  const handleDemoSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!input.trim()) return;
     
-    setIsLoading(true);
+    // Añadir mensaje del usuario
+    setMessages([
+      ...messages,
+      { id: Date.now().toString(), role: 'user', content: input }
+    ]);
     
-    // Simular delay de respuesta
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setMensajes(prev => [...prev, { 
-      texto: personajeSeleccionado.ejemploRespuesta,
-      esUsuario: false 
-    }]);
-    
-    setIsLoading(false);
+    // Simular respuesta
+    setTimeout(() => {
+      setMessages(prevMessages => [
+        ...prevMessages,
+        { 
+          id: (Date.now() + 1).toString(), 
+          role: 'assistant', 
+          content: personajeSeleccionado.ejemploRespuesta 
+        }
+      ]);
+    }, 1000);
   };
 
   // Get background color based on ideology using the ideologiaColores object
@@ -111,6 +154,9 @@ const ChatPage = () => {
   const pageBackground = ideologia 
     ? `linear-gradient(to bottom, rgba(30, 30, 30, 1) 0%, rgba(20, 20, 20, 0.95) 100%)`
     : 'bg-background';
+
+  // Determinar si usar la API real o el modo demo
+  const onSubmitForm = process.env.NODE_ENV === 'production' ? handleEnviarMensaje : handleDemoSubmit;
 
   return (
     <div className="pb-20 h-screen flex flex-col animate-fade-in" style={{ background: pageBackground }}>
@@ -192,28 +238,49 @@ const ChatPage = () => {
             <div className="flex-1 bg-[#1A1A1A] rounded-t-[32px] shadow-[0px_-4px_24px_rgba(0,0,0,0.25)] flex flex-col">
               {/* Mensajes */}
               <div className="flex-1 p-6 space-y-4 overflow-y-auto">
-                {mensajes.map((msg, idx) => (
+                {/* Mensaje de bienvenida */}
+                {mensajesBienvenida.map((msg, idx) => (
                   <div 
-                    key={idx} 
-                    className={`flex ${msg.esUsuario ? 'justify-end' : 'justify-start'}`}
+                    key={`welcome-${idx}`} 
+                    className="flex justify-start"
                   >
-                    {!msg.esUsuario && (
-                      <div className="w-8 h-8 rounded-full bg-white/10 overflow-hidden border border-white/50 flex items-center justify-center mr-2 flex-shrink-0">
-                        <PersonIcon className="w-5 h-5 text-white/80" />
-                      </div>
-                    )}
+                    <div className="w-8 h-8 rounded-full bg-white/10 overflow-hidden border border-white/50 flex items-center justify-center mr-2 flex-shrink-0">
+                      <PersonIcon className="w-5 h-5 text-white/80" />
+                    </div>
                     <div 
-                      className={`max-w-[70%] p-4 rounded-2xl ${
-                        msg.esUsuario 
-                          ? 'bg-white/10 text-[#B6B6B6] rounded-br-none' 
-                          : 'bg-white/5 text-[#B6B6B6] rounded-bl-none'
-                      }`}
+                      className="max-w-[70%] p-4 rounded-2xl bg-white/5 text-[#B6B6B6] rounded-bl-none"
                       style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px' }}
                     >
                       {msg.texto}
                     </div>
                   </div>
                 ))}
+                
+                {/* Mensajes de la API */}
+                {messages.map((message) => (
+                  <div 
+                    key={message.id} 
+                    className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                  >
+                    {message.role === 'assistant' && (
+                      <div className="w-8 h-8 rounded-full bg-white/10 overflow-hidden border border-white/50 flex items-center justify-center mr-2 flex-shrink-0">
+                        <PersonIcon className="w-5 h-5 text-white/80" />
+                      </div>
+                    )}
+                    <div 
+                      className={`max-w-[70%] p-4 rounded-2xl ${
+                        message.role === 'user' 
+                          ? 'bg-white/10 text-[#B6B6B6] rounded-br-none' 
+                          : 'bg-white/5 text-[#B6B6B6] rounded-bl-none'
+                      }`}
+                      style={{ textShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px' }}
+                    >
+                      {message.content}
+                    </div>
+                  </div>
+                ))}
+
+                {/* Indicador de carga */}
                 {isLoading && (
                   <div className="flex justify-start">
                     <div className="w-8 h-8 rounded-full bg-white/10 overflow-hidden border border-white/50 flex items-center justify-center mr-2 flex-shrink-0">
@@ -232,22 +299,22 @@ const ChatPage = () => {
               
               {/* Input del mensaje */}
               <div className="p-4 border-t border-white/10">
-                <div className="flex gap-2">
+                <form onSubmit={onSubmitForm} className="flex gap-2">
                   <Input
                     type="text"
-                    placeholder="Pregunta algo a Adam Smith..."
-                    value={mensaje}
-                    onChange={(e) => setMensaje(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleEnviarMensaje()}
+                    placeholder={`Pregunta algo a ${personajeSeleccionado.nombre}...`}
+                    value={input}
+                    onChange={handleInputChange}
                     className="flex-1 bg-white/5 border-white/20 text-[#B6B6B6] placeholder:text-[#B6B6B6]/60 rounded-full px-6"
                   />
                   <Button 
-                    onClick={handleEnviarMensaje}
+                    type="submit"
                     className="bg-white/10 hover:bg-white/20 text-[#B6B6B6] rounded-full w-12 h-12 p-0 flex items-center justify-center"
+                    disabled={isLoading || !input.trim()}
                   >
                     <Send size={18} />
                   </Button>
-                </div>
+                </form>
               </div>
             </div>
           </div>
@@ -255,7 +322,6 @@ const ChatPage = () => {
       </div>
       
       <FloatingButtons ideologia={ideologia || undefined} />
-      <BottomNavigation />
     </div>
   );
 };
